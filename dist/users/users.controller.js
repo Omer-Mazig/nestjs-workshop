@@ -15,11 +15,8 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
 let UsersController = class UsersController {
-    getUsers(query) {
-        return `Users with query: ${JSON.stringify(query)}`;
-    }
-    getUserById(params) {
-        return `User with params: ${JSON.stringify(params)}`;
+    getUsers(userId, limit) {
+        return `Users with userId: ${userId} and with limit: ${limit}`;
     }
     createUser(body) {
         return `Creating user with body: ${JSON.stringify(body)}`;
@@ -27,19 +24,13 @@ let UsersController = class UsersController {
 };
 exports.UsersController = UsersController;
 __decorate([
-    (0, common_1.Get)(),
-    __param(0, (0, common_1.Query)()),
+    (0, common_1.Get)('/:userId?'),
+    __param(0, (0, common_1.Param)('userId', common_1.ParseIntPipe)),
+    __param(1, (0, common_1.Query)('limit')),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [Number, Object]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getUsers", null);
-__decorate([
-    (0, common_1.Get)('/:userId/:optional?'),
-    __param(0, (0, common_1.Param)()),
-    __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
-    __metadata("design:returntype", void 0)
-], UsersController.prototype, "getUserById", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
