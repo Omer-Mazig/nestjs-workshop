@@ -23,9 +23,7 @@ export class UsersController {
   }
 
   @Post()
-  public createUser(
-    @Body(new ValidationPipe()) createUserDtod: CreateUserDtod,
-  ) {
+  public createUser(@Body() createUserDtod: CreateUserDtod) {
     return `Creating user with body: ${JSON.stringify(createUserDtod)}`;
   }
 }
