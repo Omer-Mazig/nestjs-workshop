@@ -14,33 +14,50 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
-const crete_user_dto_1 = require("./dtos/crete-user-dto");
+const create_user_dto_1 = require("./dtos/create-user.dto");
+const get_users_params_dto_1 = require("./dtos/get-users-params.dto");
+const patch_user_dto_1 = require("./dtos/patch-user.dto");
+const users_service_1 = require("./providers/users.service");
 let UsersController = class UsersController {
-    getUsers(userId, limit, page) {
-        return `Users with userId: ${userId}, with limit: ${limit} and page is: ${page}`;
+    constructor(userService) {
+        this.userService = userService;
+    }
+    getUsers(getUserParamsDto, limit, page) {
+        return `Users with userId: ${getUserParamsDto.userId}, with limit: ${limit} and page is: ${page}`;
     }
     createUser(createUserDtod) {
         return `Creating user with body: ${JSON.stringify(createUserDtod)}`;
+    }
+    patchUser(patchUserDto) {
+        return `Patching user with body: ${JSON.stringify(patchUserDto)}`;
     }
 };
 exports.UsersController = UsersController;
 __decorate([
     (0, common_1.Get)('/:userId?'),
-    __param(0, (0, common_1.Param)('userId', common_1.ParseIntPipe)),
+    __param(0, (0, common_1.Param)()),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('page', new common_1.DefaultValuePipe(1), common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Number, Number]),
+    __metadata("design:paramtypes", [get_users_params_dto_1.GetUserParamsDto, Number, Number]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getUsers", null);
 __decorate([
     (0, common_1.Post)(),
     __param(0, (0, common_1.Body)()),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [crete_user_dto_1.CreateUserDtod]),
+    __metadata("design:paramtypes", [create_user_dto_1.CreateUserDtod]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "createUser", null);
+__decorate([
+    (0, common_1.Patch)(),
+    __param(0, (0, common_1.Body)()),
+    __metadata("design:type", Function),
+    __metadata("design:paramtypes", [patch_user_dto_1.PatchUserDto]),
+    __metadata("design:returntype", void 0)
+], UsersController.prototype, "patchUser", null);
 exports.UsersController = UsersController = __decorate([
-    (0, common_1.Controller)('users')
+    (0, common_1.Controller)('users'),
+    __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 //# sourceMappingURL=users.controller.js.map
