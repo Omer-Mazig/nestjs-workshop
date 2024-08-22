@@ -14,28 +14,30 @@ var __param = (this && this.__param) || function (paramIndex, decorator) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UsersController = void 0;
 const common_1 = require("@nestjs/common");
+const crete_user_dto_1 = require("./dtos/crete-user-dto");
 let UsersController = class UsersController {
-    getUsers(userId, limit) {
-        return `Users with userId: ${userId} and with limit: ${limit}`;
+    getUsers(userId, limit, page) {
+        return `Users with userId: ${userId}, with limit: ${limit} and page is: ${page}`;
     }
-    createUser(body) {
-        return `Creating user with body: ${JSON.stringify(body)}`;
+    createUser(createUserDtod) {
+        return `Creating user with body: ${JSON.stringify(createUserDtod)}`;
     }
 };
 exports.UsersController = UsersController;
 __decorate([
     (0, common_1.Get)('/:userId?'),
     __param(0, (0, common_1.Param)('userId', common_1.ParseIntPipe)),
-    __param(1, (0, common_1.Query)('limit')),
+    __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
+    __param(2, (0, common_1.Query)('page', new common_1.DefaultValuePipe(1), common_1.ParseIntPipe)),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Number, Object]),
+    __metadata("design:paramtypes", [Number, Number, Number]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "getUsers", null);
 __decorate([
     (0, common_1.Post)(),
-    __param(0, (0, common_1.Body)()),
+    __param(0, (0, common_1.Body)(new common_1.ValidationPipe())),
     __metadata("design:type", Function),
-    __metadata("design:paramtypes", [Object]),
+    __metadata("design:paramtypes", [crete_user_dto_1.CreateUserDtod]),
     __metadata("design:returntype", void 0)
 ], UsersController.prototype, "createUser", null);
 exports.UsersController = UsersController = __decorate([
