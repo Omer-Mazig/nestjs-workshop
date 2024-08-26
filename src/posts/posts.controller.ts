@@ -3,10 +3,10 @@ import { PostsService } from './providers/posts.service';
 
 @Controller('posts')
 export class PostsController {
-  constructor(private readonly postService: PostsService) {}
+  constructor(private readonly postsService: PostsService) {}
 
   @Get('/:userId')
   public getPosts(@Param('userId') userId: string) {
-    return this.postService.findAll(userId);
+    return this.postsService.findAll(userId);
   }
 }
