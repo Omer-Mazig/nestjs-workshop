@@ -23,7 +23,7 @@ let UsersController = class UsersController {
         this.userService = userService;
     }
     getUsers(getUserParamsDto, limit, page) {
-        return `Users with userId: ${getUserParamsDto.userId}, with limit: ${limit} and page is: ${page}`;
+        return this.userService.findAll(getUserParamsDto, limit, page);
     }
     createUser(createUserDtod) {
         return `Creating user with body: ${JSON.stringify(createUserDtod)}`;

@@ -5,7 +5,10 @@ import { UsersService } from './providers/users.service';
 export declare class UsersController {
     private readonly userService;
     constructor(userService: UsersService);
-    getUsers(getUserParamsDto: GetUserParamsDto, limit: number, page: number): string;
+    getUsers(getUserParamsDto: GetUserParamsDto, limit: number, page: number): {
+        firstName: string;
+        email: string;
+    }[];
     createUser(createUserDtod: CreateUserDtod): string;
     patchUser(patchUserDto: PatchUserDto): string;
 }

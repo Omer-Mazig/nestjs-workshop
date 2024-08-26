@@ -24,7 +24,7 @@ export class UsersController {
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
   ) {
-    return `Users with userId: ${getUserParamsDto.userId}, with limit: ${limit} and page is: ${page}`;
+    return this.userService.findAll(getUserParamsDto, limit, page);
   }
 
   @Post()
