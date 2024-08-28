@@ -1,6 +1,6 @@
 import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { GetUserParamsDto } from '../dtos/get-users-params.dto';
 import { AuthService } from 'src/auth/providers/auth.service';
+import { GetUserParamsDto } from '../dtos/get-users-params.dto';
 
 @Injectable()
 export class UsersService {
