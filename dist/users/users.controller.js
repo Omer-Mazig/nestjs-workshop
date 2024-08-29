@@ -18,6 +18,7 @@ const create_user_dto_1 = require("./dtos/create-user.dto");
 const get_users_params_dto_1 = require("./dtos/get-users-params.dto");
 const patch_user_dto_1 = require("./dtos/patch-user.dto");
 const users_service_1 = require("./providers/users.service");
+const swagger_1 = require("@nestjs/swagger");
 let UsersController = class UsersController {
     constructor(userService) {
         this.userService = userService;
@@ -35,6 +36,20 @@ let UsersController = class UsersController {
 exports.UsersController = UsersController;
 __decorate([
     (0, common_1.Get)('/:userId?'),
+    (0, swagger_1.ApiQuery)({
+        name: 'limit',
+        type: 'number',
+        required: false,
+        description: 'The number of entires returned per query',
+        example: 10,
+    }),
+    (0, swagger_1.ApiQuery)({
+        name: 'page',
+        type: 'number',
+        required: false,
+        description: 'The page number',
+        example: 2,
+    }),
     __param(0, (0, common_1.Param)()),
     __param(1, (0, common_1.Query)('limit', new common_1.DefaultValuePipe(10), common_1.ParseIntPipe)),
     __param(2, (0, common_1.Query)('page', new common_1.DefaultValuePipe(1), common_1.ParseIntPipe)),
@@ -58,6 +73,7 @@ __decorate([
 ], UsersController.prototype, "patchUser", null);
 exports.UsersController = UsersController = __decorate([
     (0, common_1.Controller)('users'),
+    (0, swagger_1.ApiTags)('Users'),
     __metadata("design:paramtypes", [users_service_1.UsersService])
 ], UsersController);
 //# sourceMappingURL=users.controller.js.map
