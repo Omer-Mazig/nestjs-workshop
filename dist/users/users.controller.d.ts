@@ -9,6 +9,6 @@ export declare class UsersController {
         firstName: string;
         email: string;
     }[];
-    createUser(createUserDtod: CreateUserDtod): string;
+    createUser(createUserDto: CreateUserDtod): string;
     patchUser(patchUserDto: PatchUserDto): string;
 }

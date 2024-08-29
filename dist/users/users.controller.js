@@ -26,8 +26,8 @@ let UsersController = class UsersController {
     getUsers(getUserParamsDto, limit, page) {
         return this.userService.findAll(getUserParamsDto, limit, page);
     }
-    createUser(createUserDtod) {
-        return `Creating user with body: ${JSON.stringify(createUserDtod)}`;
+    createUser(createUserDto) {
+        return `Creating user with body: ${JSON.stringify(createUserDto)}`;
     }
     patchUser(patchUserDto) {
         return `Patching user with body: ${JSON.stringify(patchUserDto)}`;
@@ -36,6 +36,13 @@ let UsersController = class UsersController {
 exports.UsersController = UsersController;
 __decorate([
     (0, common_1.Get)('/:userId?'),
+    (0, swagger_1.ApiOperation)({
+        summary: 'Fetches a list if registered users on the application',
+    }),
+    (0, swagger_1.ApiResponse)({
+        status: 200,
+        description: 'Users fetched',
+    }),
     (0, swagger_1.ApiQuery)({
         name: 'limit',
         type: 'number',

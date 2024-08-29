@@ -13,7 +13,7 @@ import { CreateUserDtod } from './dtos/create-user.dto';
 import { GetUserParamsDto } from './dtos/get-users-params.dto';
 import { PatchUserDto } from './dtos/patch-user.dto';
 import { UsersService } from './providers/users.service';
-import { ApiQuery, ApiTags } from '@nestjs/swagger';
+import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
 
 @Controller('users')
 @ApiTags('Users')
@@ -21,6 +21,13 @@ export class UsersController {
   constructor(private readonly userService: UsersService) {}
 
   @Get('/:userId?')
+  @ApiOperation({
+    summary: 'Fetches a list if registered users on the application',
+  })
+  @ApiResponse({
+    status: 200,
+    description: 'Users fetched',
+  })
   @ApiQuery({
     name: 'limit',
     type: 'number',
@@ -44,8 +51,8 @@ export class UsersController {
   }
 
   @Post()
-  public createUser(@Body() createUserDtod: CreateUserDtod) {
-    return `Creating user with body: ${JSON.stringify(createUserDtod)}`;
+  public createUser(@Body() createUserDto: CreateUserDtod) {
+    return `Creating user with body: ${JSON.stringify(createUserDto)}`;
   }
 
   @Patch()
