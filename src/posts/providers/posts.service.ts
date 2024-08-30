@@ -12,9 +12,6 @@ export class PostsService {
     private readonly usersService: UsersService,
     @InjectRepository(Post)
     private readonly postsRepository: Repository<Post>,
-
-    @InjectRepository(MetaOption)
-    private readonly metaOptionsRepository: Repository<MetaOption>,
   ) {}
 
   public findAll(userId: string) {
@@ -34,24 +31,7 @@ export class PostsService {
   }
 
   public async createPost(@Body() createPostDto: CreatePostDto) {
-    // Create metaOptions and save it
-    const metaOptions = createPostDto.metaOptions
-      ? this.metaOptionsRepository.create(createPostDto.metaOptions)
-      : null;
-
-    if (metaOptions) {
-      await this.metaOptionsRepository.save(metaOptions);
-    }
-
-    // Create post
     const post = this.postsRepository.create(createPostDto);
-
-    // Add metaOptions to the post
-    if (metaOptions) {
-      post.metaOptions = metaOptions;
-    }
-    // Return the post
-
     return await this.postsRepository.save(post);
   }
 }
