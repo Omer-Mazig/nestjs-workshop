@@ -30,7 +30,7 @@ export class PostsService {
   }
 
   public async createPost(createPostDto: CreatePostDto) {
-    const post = this.postRepository.create(createPostDto);
-    return await this.postRepository.save(post);
+    // const post = this.postRepository.create(createPostDto);
+    // return await this.postRepository.save(post);
   }
 }

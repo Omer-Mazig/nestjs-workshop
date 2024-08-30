@@ -7,7 +7,7 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
 import { TagsModule } from './tags/tags.module';
-import { MetaOptionModule } from './meta-option/meta-option.module';
+import { MetaOptionsModule } from './meta-option/meta-options.module';
 
 @Module({
   imports: [
@@ -15,6 +15,7 @@ import { MetaOptionModule } from './meta-option/meta-option.module';
     PostsModule,
     AuthModule,
     TagsModule,
+    MetaOptionsModule,
     TypeOrmModule.forRootAsync({
       imports: [],
       inject: [],
@@ -30,7 +31,6 @@ import { MetaOptionModule } from './meta-option/meta-option.module';
         database: 'nestjs-blog',
       }),
     }),
-    MetaOptionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
