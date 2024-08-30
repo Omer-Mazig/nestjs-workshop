@@ -15,7 +15,7 @@ const posts_module_1 = require("./posts/posts.module");
 const auth_module_1 = require("./auth/auth.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const tags_module_1 = require("./tags/tags.module");
-const meta_options_module_1 = require("./meta-option/meta-options.module");
+const meta_options_module_1 = require("./meta-options/meta-options.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;

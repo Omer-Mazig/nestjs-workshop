@@ -7,7 +7,7 @@ import {
 } from 'typeorm';
 import { PostType } from './enums/post-type.enum';
 import { PostStatus } from './enums/post-status.enum';
-import { MetaOption } from 'src/meta-option/meta-option.entity';
+import { MetaOption } from 'src/meta-options/meta-option.entity';
 
 @Entity()
 export class Post {
