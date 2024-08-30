@@ -20,7 +20,8 @@ import { MetaOptionModule } from './meta-option/meta-option.module';
       inject: [],
       useFactory: () => ({
         type: 'postgres',
-        entities: [User],
+        // entities: [User],
+        autoLoadEntities: true,
         synchronize: true, // REMOVE IN PORD
         port: 5432,
         username: 'postgres',

@@ -14,7 +14,8 @@ const users_module_1 = require("./users/users.module");
 const posts_module_1 = require("./posts/posts.module");
 const auth_module_1 = require("./auth/auth.module");
 const typeorm_1 = require("@nestjs/typeorm");
-const user_entity_1 = require("./users/user.entity");
+const tags_module_1 = require("./tags/tags.module");
+const meta_option_module_1 = require("./meta-option/meta-option.module");
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
@@ -24,12 +25,13 @@ exports.AppModule = AppModule = __decorate([
             users_module_1.UsersModule,
             posts_module_1.PostsModule,
             auth_module_1.AuthModule,
+            tags_module_1.TagsModule,
             typeorm_1.TypeOrmModule.forRootAsync({
                 imports: [],
                 inject: [],
                 useFactory: () => ({
                     type: 'postgres',
-                    entities: [user_entity_1.User],
+                    autoLoadEntities: true,
                     synchronize: true,
                     port: 5432,
                     username: 'postgres',
@@ -38,6 +40,7 @@ exports.AppModule = AppModule = __decorate([
                     database: 'nestjs-blog',
                 }),
             }),
+            meta_option_module_1.MetaOptionModule,
         ],
         controllers: [app_controller_1.AppController],
         providers: [app_service_1.AppService],
