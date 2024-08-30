@@ -7,12 +7,14 @@ import { AuthModule } from './auth/auth.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { User } from './users/user.entity';
 import { TagsModule } from './tags/tags.module';
+import { MetaOptionModule } from './meta-option/meta-option.module';
 
 @Module({
   imports: [
     UsersModule,
     PostsModule,
     AuthModule,
+    TagsModule,
     TypeOrmModule.forRootAsync({
       imports: [],
       inject: [],
@@ -27,7 +29,7 @@ import { TagsModule } from './tags/tags.module';
         database: 'nestjs-blog',
       }),
     }),
-    TagsModule,
+    MetaOptionModule,
   ],
   controllers: [AppController],
   providers: [AppService],
