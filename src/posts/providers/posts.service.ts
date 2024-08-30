@@ -12,26 +12,27 @@ export class PostsService {
     private readonly usersService: UsersService,
     @InjectRepository(Post)
     private readonly postsRepository: Repository<Post>,
+    @InjectRepository(MetaOption)
+    private readonly metaOptionRepository: Repository<MetaOption>,
   ) {}
 
-  public findAll(userId: string) {
+  public async findAll(userId: string) {
     const user = this.usersService.findOneById(userId);
-    return [
-      {
-        user,
-        title: 'Test Title',
-        content: 'Test content',
-      },
-      {
-        user,
-        title: 'Test Title 2',
-        content: 'Test content 2',
-      },
-    ];
+    const post = await this.postsRepository.find();
+    return post;
   }
 
   public async createPost(@Body() createPostDto: CreatePostDto) {
     const post = this.postsRepository.create(createPostDto);
     return await this.postsRepository.save(post);
+  }
+
+  public async deletePost(id: number) {
+    const post = await this.postsRepository.findOneBy({ id });
+    await this.postsRepository.delete(id);
+
+    await this.metaOptionRepository.delete(post.metaOptions.id);
+
+    return { deleted: true, id };
   }
 }
