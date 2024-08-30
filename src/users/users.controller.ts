@@ -52,7 +52,8 @@ export class UsersController {
 
   @Post()
   public createUser(@Body() createUserDto: CreateUserDtod) {
-    return `Creating user with body: ${JSON.stringify(createUserDto)}`;
+    const user = this.userService.createUser(createUserDto);
+    return user;
   }
 
   @Patch()

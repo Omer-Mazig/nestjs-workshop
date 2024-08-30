@@ -21,7 +21,7 @@ import { User } from './users/user.entity';
         synchronize: true, // REMOVE IN PORD
         port: 5432,
         username: 'postgres',
-        password: 'password',
+        password: '',
         host: 'localhost',
         database: 'nestjs-blog',
       }),

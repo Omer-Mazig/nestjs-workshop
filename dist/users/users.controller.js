@@ -27,7 +27,8 @@ let UsersController = class UsersController {
         return this.userService.findAll(getUserParamsDto, limit, page);
     }
     createUser(createUserDto) {
-        return `Creating user with body: ${JSON.stringify(createUserDto)}`;
+        const user = this.userService.createUser(createUserDto);
+        return user;
     }
     patchUser(patchUserDto) {
         return `Patching user with body: ${JSON.stringify(patchUserDto)}`;

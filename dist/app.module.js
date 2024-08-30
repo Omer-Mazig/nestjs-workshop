@@ -33,7 +33,7 @@ exports.AppModule = AppModule = __decorate([
                     synchronize: true,
                     port: 5432,
                     username: 'postgres',
-                    password: 'password',
+                    password: '',
                     host: 'localhost',
                     database: 'nestjs-blog',
                 }),
