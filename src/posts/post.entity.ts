@@ -70,13 +70,11 @@ export class Post {
   })
   publishOn?: Date;
 
-  // Work on this on relations
   tags?: string[];
 
-  @OneToOne(() => MetaOption, {
+  @OneToOne(() => MetaOption, (metaOptions) => metaOptions.post, {
     cascade: true,
     eager: true, // Will fetch metaOption any time posts will be fetch
   })
-  @JoinColumn()
   metaOptions?: MetaOption;
 }

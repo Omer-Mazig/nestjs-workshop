@@ -26,7 +26,7 @@ import { MetaOptionsModule } from './meta-options/meta-options.module';
         synchronize: true, // REMOVE IN PORD
         port: 5432,
         username: 'postgres',
-        password: '',
+        password: 'PgOm731731',
         host: 'localhost',
         database: 'nestjs-blog',
       }),
