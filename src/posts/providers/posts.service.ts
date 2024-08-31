@@ -14,13 +14,13 @@ export class PostsService {
   ) {}
 
   public async findAll(userId: string) {
-    const user = this.usersService.findOneById(userId);
     const posts = await this.postsRepository.find();
     return posts;
   }
 
   public async createPost(@Body() createPostDto: CreatePostDto) {
-    const post = this.postsRepository.create(createPostDto);
+    const author = await this.usersService.findOneById(createPostDto.authorId);
+    const post = this.postsRepository.create({ ...createPostDto, author });
     return await this.postsRepository.save(post);
   }
 
