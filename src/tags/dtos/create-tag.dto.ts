@@ -42,6 +42,7 @@ export class CreateTagDto {
   schema?: string;
 
   @ApiPropertyOptional()
+  @IsOptional()
   @IsUrl()
   @MaxLength(1024)
   featuredImageUrl?: string;
