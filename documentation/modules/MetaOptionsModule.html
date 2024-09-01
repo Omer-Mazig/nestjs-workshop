@@ -93,7 +93,7 @@
 
 <ol class="breadcrumb">
     <li class="breadcrumb-item">Modules</li>
-    <li class="breadcrumb-item" >PostsModule</li>
+    <li class="breadcrumb-item" >MetaOptionsModule</li>
 </ol>
 
 <div class="text-center module-graph-container">
@@ -121,58 +121,30 @@
 <polygon fill="#fb8072" stroke="transparent" points="406,-10 406,-30 426,-30 426,-10 406,-10"/>
 <text text-anchor="start" x="429.73" y="-15.4" font-family="Times-12" font-size="14.00"> &#160;Exports</text>
 <g id="clust1" class="cluster">
-<title>cluster_PostsModule</title>
-<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="62,-70 62,-195 434,-195 434,-70 62,-70"/>
-</g>
-<g id="clust3" class="cluster">
-<title>cluster_PostsModule_imports</title>
-<polygon fill="none" stroke="black" points="214,-78 214,-130 426,-130 426,-78 214,-78"/>
+<title>cluster_MetaOptionsModule</title>
+<polygon fill="none" stroke="black" stroke-dasharray="1,5" points="142,-70 142,-195 354,-195 354,-70 142,-70"/>
 </g>
 <g id="clust6" class="cluster">
-<title>cluster_PostsModule_providers</title>
-<polygon fill="none" stroke="black" points="70,-78 70,-130 206,-130 206,-78 70,-78"/>
+<title>cluster_MetaOptionsModule_providers</title>
+<polygon fill="none" stroke="black" points="150,-78 150,-130 346,-130 346,-78 150,-78"/>
 </g>
-<!-- TagsModule -->
+<!-- MetaOptionsService -->
 <g id="node1" class="node">
-<title>TagsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="418.26,-122 415.26,-126 394.26,-126 391.26,-122 331.74,-122 331.74,-86 418.26,-86 418.26,-122"/>
-<text text-anchor="middle" x="375" y="-99.8" font-family="Times,serif" font-size="14.00">TagsModule</text>
+<title>MetaOptionsService</title>
+<ellipse fill="#fdb462" stroke="black" cx="248" cy="-104" rx="90.33" ry="18"/>
+<text text-anchor="middle" x="248" y="-99.8" font-family="Times,serif" font-size="14.00">MetaOptionsService</text>
 </g>
-<!-- PostsModule -->
-<g id="node3" class="node">
-<title>PostsModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="312.61,-187 309.61,-191 288.61,-191 285.61,-187 223.39,-187 223.39,-151 312.61,-151 312.61,-187"/>
-<text text-anchor="middle" x="268" y="-164.8" font-family="Times,serif" font-size="14.00">PostsModule</text>
-</g>
-<!-- TagsModule&#45;&gt;PostsModule -->
-<g id="edge1" class="edge">
-<title>TagsModule&#45;&gt;PostsModule</title>
-<path fill="none" stroke="black" d="M375,-122.11C375,-141.34 375,-169 375,-169 375,-169 322.76,-169 322.76,-169"/>
-<polygon fill="black" stroke="black" points="322.76,-165.5 312.76,-169 322.76,-172.5 322.76,-165.5"/>
-</g>
-<!-- UsersModule -->
+<!-- MetaOptionsModule -->
 <g id="node2" class="node">
-<title>UsersModule</title>
-<polygon fill="#8dd3c7" stroke="black" points="313.92,-122 310.92,-126 289.92,-126 286.92,-122 222.08,-122 222.08,-86 313.92,-86 313.92,-122"/>
-<text text-anchor="middle" x="268" y="-99.8" font-family="Times,serif" font-size="14.00">UsersModule</text>
+<title>MetaOptionsModule</title>
+<polygon fill="#8dd3c7" stroke="black" points="314.15,-187 311.15,-191 290.15,-191 287.15,-187 181.85,-187 181.85,-151 314.15,-151 314.15,-187"/>
+<text text-anchor="middle" x="248" y="-164.8" font-family="Times,serif" font-size="14.00">MetaOptionsModule</text>
 </g>
-<!-- UsersModule&#45;&gt;PostsModule -->
-<g id="edge2" class="edge">
-<title>UsersModule&#45;&gt;PostsModule</title>
-<path fill="none" stroke="black" d="M268,-122.11C268,-122.11 268,-140.99 268,-140.99"/>
-<polygon fill="black" stroke="black" points="264.5,-140.99 268,-150.99 271.5,-140.99 264.5,-140.99"/>
-</g>
-<!-- PostsService -->
-<g id="node4" class="node">
-<title>PostsService</title>
-<ellipse fill="#fdb462" stroke="black" cx="138" cy="-104" rx="60.27" ry="18"/>
-<text text-anchor="middle" x="138" y="-99.8" font-family="Times,serif" font-size="14.00">PostsService</text>
-</g>
-<!-- PostsService&#45;&gt;PostsModule -->
-<g id="edge3" class="edge">
-<title>PostsService&#45;&gt;PostsModule</title>
-<path fill="none" stroke="black" d="M138,-122.11C138,-141.34 138,-169 138,-169 138,-169 213.26,-169 213.26,-169"/>
-<polygon fill="black" stroke="black" points="213.26,-172.5 223.26,-169 213.26,-165.5 213.26,-172.5"/>
+<!-- MetaOptionsService&#45;&gt;MetaOptionsModule -->
+<g id="edge1" class="edge">
+<title>MetaOptionsService&#45;&gt;MetaOptionsModule</title>
+<path fill="none" stroke="black" d="M248,-122.11C248,-122.11 248,-140.99 248,-140.99"/>
+<polygon fill="black" stroke="black" points="244.5,-140.99 248,-150.99 251.5,-140.99 244.5,-140.99"/>
 </g>
 </g>
 </svg>
@@ -210,7 +182,7 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/posts/posts.module.ts</code>
+            <code>src/meta-options/meta-options.module.ts</code>
         </p>
 
 
@@ -224,7 +196,7 @@
                             title="Official documentation about module providers"><span class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <a href="../injectables/PostsService.html">PostsService</a>
+                            <a href="../injectables/MetaOptionsService.html">MetaOptionsService</a>
                         </li>
                     </ul>
                 </div>
@@ -234,20 +206,7 @@
                                 class="icon ion-ios-information-circle-outline"></a></h3>
                     <ul class="list-group">
                         <li class="list-group-item">
-                            <a href="../controllers/PostsController.html">PostsController</a>
-                        </li>
-                    </ul>
-                </div>
-                <div class="col-sm-3">
-                    <h3>Imports<a href="https://angular.io/api/core/NgModule#imports" target="_blank" rel="noopener noreferrer"
-                            title="Official documentation about module imports"><span
-                                class="icon ion-ios-information-circle-outline"></a></h3>
-                    <ul class="list-group">
-                        <li class="list-group-item">
-                            <a href="../modules/TagsModule.html">TagsModule</a>
-                        </li>
-                        <li class="list-group-item">
-                            <a href="../modules/UsersModule.html">UsersModule</a>
+                            <a href="../controllers/MetaOptionsController.html">MetaOptionsController</a>
                         </li>
                     </ul>
                 </div>
@@ -260,24 +219,17 @@
 
     <div class="tab-pane fade  tab-source-code" id="source">
         <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Module } from &#x27;@nestjs/common&#x27;;
-import { PostsController } from &#x27;./posts.controller&#x27;;
-import { PostsService } from &#x27;./providers/posts.service&#x27;;
-import { UsersModule } from &#x27;src/users/users.module&#x27;;
+import { MetaOptionsController } from &#x27;./meta-options.controller&#x27;;
 import { TypeOrmModule } from &#x27;@nestjs/typeorm&#x27;;
-import { Post } from &#x27;./post.entity&#x27;;
-import { MetaOption } from &#x27;src/meta-options/meta-option.entity&#x27;;
-import { TagsModule } from &#x27;src/tags/tags.module&#x27;;
+import { MetaOption } from &#x27;./meta-option.entity&#x27;;
+import { MetaOptionsService } from &#x27;./providers/meta-options.service&#x27;;
 
 @Module({
-  controllers: [PostsController],
-  providers: [PostsService],
-  imports: [
-    UsersModule,
-    TagsModule,
-    TypeOrmModule.forFeature([Post, MetaOption]),
-  ],
+  controllers: [MetaOptionsController],
+  imports: [TypeOrmModule.forFeature([MetaOption])],
+  providers: [MetaOptionsService],
 })
-export class PostsModule {}
+export class MetaOptionsModule {}
 </code></pre>
     </div>
 </div>
@@ -324,7 +276,7 @@ export class PostsModule {}
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
             var COMPODOC_CURRENT_PAGE_CONTEXT = 'module';
-            var COMPODOC_CURRENT_PAGE_URL = 'PostsModule.html';
+            var COMPODOC_CURRENT_PAGE_URL = 'MetaOptionsModule.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 

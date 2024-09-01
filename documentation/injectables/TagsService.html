@@ -86,16 +86,19 @@
                    <compodoc-menu mode="normal"></compodoc-menu>
                </div>
                <!-- START CONTENT -->
-               <div class="content controller">
+               <div class="content injectable">
                    <div class="content-data">
 
 
 
 
 
+
+
+
 <ol class="breadcrumb">
-  <li class="breadcrumb-item">Controllers</li>
-  <li class="breadcrumb-item" >UsersController</li>
+  <li class="breadcrumb-item">Injectables</li>
+  <li class="breadcrumb-item" >TagsService</li>
 </ol>
 
 <ul class="nav nav-tabs" role="tablist">
@@ -119,16 +122,8 @@
             <h3>File</h3>
         </p>
         <p class="comment">
-            <code>src/users/users.controller.ts</code>
+            <code>src/tags/providers/tags.service.ts</code>
         </p>
-
-            <p class="comment">
-                <h3>Prefix</h3>
-            </p>
-            <p class="comment">
-                <code>users</code>
-            </p>
-
 
 
 
@@ -148,23 +143,24 @@
                     <td class="col-md-4">
                         <ul class="index-list">
                             <li>
-                                    <span class="modifier"></span>
                                     <span class="modifier">Public</span>
-                                <a href="#createUser" >createUser</a>
+                                    <span class="modifier">Async</span>
+                                <a href="#createTag" >createTag</a>
                             </li>
                             <li>
-                                    <span class="modifier"></span>
-                                    <span class="modifier"></span>
-                                    <span class="modifier"></span>
-                                    <span class="modifier"></span>
-                                    <span class="modifier"></span>
                                     <span class="modifier">Public</span>
-                                <a href="#getUsers" >getUsers</a>
+                                    <span class="modifier">Async</span>
+                                <a href="#deleteTag" >deleteTag</a>
                             </li>
                             <li>
-                                    <span class="modifier"></span>
                                     <span class="modifier">Public</span>
-                                <a href="#patchUser" >patchUser</a>
+                                    <span class="modifier">Async</span>
+                                <a href="#findMultipleTags" >findMultipleTags</a>
+                            </li>
+                            <li>
+                                    <span class="modifier">Public</span>
+                                    <span class="modifier">Async</span>
+                                <a href="#softRemove" >softRemove</a>
                             </li>
                         </ul>
                     </td>
@@ -178,6 +174,55 @@
     </table>
 </section>
 
+            <section data-compodoc="block-constructor">
+    <h3 id="constructor">Constructor</h3>
+        <table class="table table-sm table-bordered">
+            <tbody>
+                <tr>
+                    <td class="col-md-4">
+<code>constructor(tagsRepository: <a href="../entitys/Tag.html" target="_self">Repository&lt;Tag&gt;</a>)</code>
+                    </td>
+                </tr>
+                        <tr>
+                            <td class="col-md-4">
+                                <div class="io-line">Defined in <a href="" data-line="8" class="link-to-prism">src/tags/providers/tags.service.ts:8</a></div>
+                            </td>
+                        </tr>
+
+                <tr>
+                    <td class="col-md-4">
+                            <div>
+                                    <b>Parameters :</b>
+                                    <table class="params">
+                                        <thead>
+                                            <tr>
+                                                <td>Name</td>
+                                                    <td>Type</td>
+                                                <td>Optional</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                <tr>
+                                                        <td>tagsRepository</td>
+                                                  
+                                                        <td>
+                                                                        <code><a href="../entitys/Tag.html" target="_self" >Repository&lt;Tag&gt;</a></code>
+                                                        </td>
+                                                  
+                                                    <td>
+                                                            No
+                                                    </td>
+                                                    
+                                                </tr>
+                                        </tbody>
+                                    </table>
+                            </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</section>
+
             <section data-compodoc="block-methods">
     
     <h3 id="methods">
@@ -187,34 +232,27 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="createUser"></a>
+                    <a name="createTag"></a>
                     <span class="name">
-                            <span class="modifier"></span>
                             <span class="modifier">Public</span>
-                        <span ><b>createUser</b></span>
-                        <a href="#createUser"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Async</span>
+                        <span ><b>createTag</b></span>
+                        <a href="#createTag"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>createUser(createUserDto: <a href="../classes/CreateUserDtod.html" target="_self">CreateUserDtod</a>)</code>
+                    <code>createTag(createTagDto: <a href="../classes/CreateTagDto.html" target="_self">CreateTagDto</a>)</code>
                 </td>
             </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Post()<br /></code>
-                </td>
-            </tr>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="54"
-                                    class="link-to-prism">src/users/users.controller.ts:54</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="14"
+                                    class="link-to-prism">src/tags/providers/tags.service.ts:14</a></div>
                         </td>
                     </tr>
 
@@ -235,9 +273,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>createUserDto</td>
+                                                <td>createTagDto</td>
                                             <td>
-                                                            <code><a href="../classes/CreateUserDtod.html" target="_self" >CreateUserDtod</a></code>
+                                                            <code><a href="../classes/CreateTagDto.html" target="_self" >CreateTagDto</a></code>
                                             </td>
 
                                             <td>
@@ -250,7 +288,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                            <b>Returns : </b>    <code>unknown</code>
 
                         </div>
                             <div class="io-description">
@@ -264,38 +302,27 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="getUsers"></a>
+                    <a name="deleteTag"></a>
                     <span class="name">
-                            <span class="modifier"></span>
-                            <span class="modifier"></span>
-                            <span class="modifier"></span>
-                            <span class="modifier"></span>
-                            <span class="modifier"></span>
                             <span class="modifier">Public</span>
-                        <span ><b>getUsers</b></span>
-                        <a href="#getUsers"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Async</span>
+                        <span ><b>deleteTag</b></span>
+                        <a href="#deleteTag"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>getUsers(getUserParamsDto: <a href="../classes/GetUserParamsDto.html" target="_self">GetUserParamsDto</a>, limit: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>, page: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                    <code>deleteTag(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
                 </td>
             </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Get(&#x27;/:userId?&#x27;)<br />@ApiOperation({summary: &#x27;Fetches a list if registered users on the application&#x27;})<br />@ApiResponse({status: 200, description: &#x27;Users fetched&#x27;})<br />@ApiQuery({name: &#x27;limit&#x27;, type: &#x27;number&#x27;, required: false, description: &#x27;The number of entires returned per query&#x27;, example: 10})<br />@ApiQuery({name: &#x27;page&#x27;, type: &#x27;number&#x27;, required: false, description: &#x27;The page number&#x27;, example: 2})<br /></code>
-                </td>
-            </tr>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="45"
-                                    class="link-to-prism">src/users/users.controller.ts:45</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="29"
+                                    class="link-to-prism">src/tags/providers/tags.service.ts:29</a></div>
                         </td>
                     </tr>
 
@@ -316,31 +343,7 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>getUserParamsDto</td>
-                                            <td>
-                                                            <code><a href="../classes/GetUserParamsDto.html" target="_self" >GetUserParamsDto</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                        <tr>
-                                                <td>limit</td>
-                                            <td>
-                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
-                                            </td>
-
-                                            <td>
-                                                    No
-                                            </td>
-
-
-                                        </tr>
-                                        <tr>
-                                                <td>page</td>
+                                                <td>id</td>
                                             <td>
                                                             <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
                                             </td>
@@ -355,7 +358,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://www.typescriptlang.org/docs/handbook/basic-types.html" target="_blank" >any</a></code>
+                            <b>Returns : </b>    <code>unknown</code>
 
                         </div>
                             <div class="io-description">
@@ -369,34 +372,27 @@
         <tbody>
             <tr>
                 <td class="col-md-4">
-                    <a name="patchUser"></a>
+                    <a name="findMultipleTags"></a>
                     <span class="name">
-                            <span class="modifier"></span>
                             <span class="modifier">Public</span>
-                        <span ><b>patchUser</b></span>
-                        <a href="#patchUser"><span class="icon ion-ios-link"></span></a>
+                            <span class="modifier">Async</span>
+                        <span ><b>findMultipleTags</b></span>
+                        <a href="#findMultipleTags"><span class="icon ion-ios-link"></span></a>
                     </span>
                 </td>
             </tr>
             <tr>
                 <td class="col-md-4">
                         <span class="modifier-icon icon ion-ios-reset"></span>
-                    <code>patchUser(patchUserDto: <a href="../classes/PatchUserDto.html" target="_self">PatchUserDto</a>)</code>
+                    <code>findMultipleTags(tags: number[])</code>
                 </td>
             </tr>
 
-            <tr>
-                <td class="col-md-4">
-                    <b>Decorators : </b>
-                    <br />
-                    <code>@Patch()<br /></code>
-                </td>
-            </tr>
 
                     <tr>
                         <td class="col-md-4">
-                            <div class="io-line">Defined in <a href="" data-line="60"
-                                    class="link-to-prism">src/users/users.controller.ts:60</a></div>
+                            <div class="io-line">Defined in <a href="" data-line="19"
+                                    class="link-to-prism">src/tags/providers/tags.service.ts:19</a></div>
                         </td>
                     </tr>
 
@@ -417,9 +413,9 @@
                                     </thead>
                                     <tbody>
                                         <tr>
-                                                <td>patchUserDto</td>
+                                                <td>tags</td>
                                             <td>
-                                                            <code><a href="../classes/PatchUserDto.html" target="_self" >PatchUserDto</a></code>
+                                                        <code>number[]</code>
                                             </td>
 
                                             <td>
@@ -432,7 +428,7 @@
                                 </table>
                             </div>
                         <div class="io-description">
-                            <b>Returns : </b>        <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/string" target="_blank" >string</a></code>
+                            <b>Returns : </b>    <code>unknown</code>
 
                         </div>
                             <div class="io-description">
@@ -442,79 +438,124 @@
             </tr>
         </tbody>
     </table>
-</section>    </div>
+    <table class="table table-sm table-bordered">
+        <tbody>
+            <tr>
+                <td class="col-md-4">
+                    <a name="softRemove"></a>
+                    <span class="name">
+                            <span class="modifier">Public</span>
+                            <span class="modifier">Async</span>
+                        <span ><b>softRemove</b></span>
+                        <a href="#softRemove"><span class="icon ion-ios-link"></span></a>
+                    </span>
+                </td>
+            </tr>
+            <tr>
+                <td class="col-md-4">
+                        <span class="modifier-icon icon ion-ios-reset"></span>
+                    <code>softRemove(id: <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank">number</a>)</code>
+                </td>
+            </tr>
+
+
+                    <tr>
+                        <td class="col-md-4">
+                            <div class="io-line">Defined in <a href="" data-line="34"
+                                    class="link-to-prism">src/tags/providers/tags.service.ts:34</a></div>
+                        </td>
+                    </tr>
+
+
+            <tr>
+                <td class="col-md-4">
+
+                            <div class="io-description">
+                                <b>Parameters :</b>
+                                
+                                <table class="params">
+                                    <thead>
+                                        <tr>
+                                            <td>Name</td>
+                                                <td>Type</td>
+                                            <td>Optional</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                                <td>id</td>
+                                            <td>
+                                                            <code><a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/number" target="_blank" >number</a></code>
+                                            </td>
+
+                                            <td>
+                                                    No
+                                            </td>
+
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        <div class="io-description">
+                            <b>Returns : </b>    <code>unknown</code>
+
+                        </div>
+                            <div class="io-description">
+                                
+                            </div>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</section>
+
+    </div>
 
 
     <div class="tab-pane fade  tab-source-code" id="source">
-        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import {
-  Body,
-  Controller,
-  DefaultValuePipe,
-  Get,
-  Param,
-  ParseIntPipe,
-  Patch,
-  Post,
-  Query,
-} from &#x27;@nestjs/common&#x27;;
-import { CreateUserDtod } from &#x27;./dtos/create-user.dto&#x27;;
-import { GetUserParamsDto } from &#x27;./dtos/get-users-params.dto&#x27;;
-import { PatchUserDto } from &#x27;./dtos/patch-user.dto&#x27;;
-import { UsersService } from &#x27;./providers/users.service&#x27;;
-import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from &#x27;@nestjs/swagger&#x27;;
+        <pre class="line-numbers compodoc-sourcecode"><code class="language-typescript">import { Injectable } from &#x27;@nestjs/common&#x27;;
+import { CreateTagDto } from &#x27;../dtos/create-tag.dto&#x27;;
+import { In, Repository } from &#x27;typeorm&#x27;;
+import { Tag } from &#x27;../tag.entity&#x27;;
+import { InjectRepository } from &#x27;@nestjs/typeorm&#x27;;
 
-@Controller(&#x27;users&#x27;)
-@ApiTags(&#x27;Users&#x27;)
-export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+@Injectable()
+export class TagsService {
+  constructor(
+    @InjectRepository(Tag)
+    private readonly tagsRepository: Repository&lt;Tag&gt;,
+  ) {}
 
-  @Get(&#x27;/:userId?&#x27;)
-  @ApiOperation({
-    summary: &#x27;Fetches a list if registered users on the application&#x27;,
-  })
-  @ApiResponse({
-    status: 200,
-    description: &#x27;Users fetched&#x27;,
-  })
-  @ApiQuery({
-    name: &#x27;limit&#x27;,
-    type: &#x27;number&#x27;,
-    required: false,
-    description: &#x27;The number of entires returned per query&#x27;,
-    example: 10,
-  })
-  @ApiQuery({
-    name: &#x27;page&#x27;,
-    type: &#x27;number&#x27;,
-    required: false,
-    description: &#x27;The page number&#x27;,
-    example: 2,
-  })
-  public getUsers(
-    @Param() getUserParamsDto: GetUserParamsDto,
-    @Query(&#x27;limit&#x27;, new DefaultValuePipe(10), ParseIntPipe) limit: number,
-    @Query(&#x27;page&#x27;, new DefaultValuePipe(1), ParseIntPipe) page: number,
-  ) {
-    return this.userService.findAll(getUserParamsDto, limit, page);
+  public async createTag(createTagDto: CreateTagDto) {
+    const tag &#x3D; this.tagsRepository.create(createTagDto);
+    return await this.tagsRepository.save(tag);
   }
 
-  @Post()
-  public createUser(@Body() createUserDto: CreateUserDtod) {
-    const user &#x3D; this.userService.createUser(createUserDto);
-    return user;
+  public async findMultipleTags(tags: number[]) {
+    const results &#x3D; await this.tagsRepository.find({
+      where: {
+        id: In(tags),
+      },
+    });
+
+    return results;
   }
 
-  @Patch()
-  public patchUser(@Body() patchUserDto: PatchUserDto) {
-    return &#x60;Patching user with body: ${JSON.stringify(patchUserDto)}&#x60;;
+  public async deleteTag(id: number) {
+    await this.tagsRepository.delete(id);
+    return { deleted: true, id };
+  }
+
+  public async softRemove(id: number) {
+    await this.tagsRepository.softDelete(id);
+    return { deleted: true, id };
   }
 }
 </code></pre>
     </div>
+
 </div>
-
-
-
 
 
 
@@ -553,8 +594,8 @@ export class UsersController {
 
        <script>
             var COMPODOC_CURRENT_PAGE_DEPTH = 1;
-            var COMPODOC_CURRENT_PAGE_CONTEXT = 'controller';
-            var COMPODOC_CURRENT_PAGE_URL = 'UsersController.html';
+            var COMPODOC_CURRENT_PAGE_CONTEXT = 'injectable';
+            var COMPODOC_CURRENT_PAGE_URL = 'TagsService.html';
             var MAX_SEARCH_RESULTS = 15;
        </script>
 
