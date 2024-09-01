@@ -19,6 +19,7 @@ const meta_options_module_1 = require("./meta-options/meta-options.module");
 const config_1 = require("@nestjs/config");
 const app_config_1 = require("./config/app.config");
 const database_config_1 = require("./config/database.config");
+const evniroment_validation_1 = require("./config/evniroment.validation");
 const ENV = process.env.NODE_ENV;
 let AppModule = class AppModule {
 };
@@ -30,6 +31,7 @@ exports.AppModule = AppModule = __decorate([
                 isGlobal: true,
                 envFilePath: !ENV ? '.env' : `.env.${ENV}`,
                 load: [app_config_1.default, database_config_1.default],
+                validationSchema: evniroment_validation_1.default,
             }),
             users_module_1.UsersModule,
             posts_module_1.PostsModule,
