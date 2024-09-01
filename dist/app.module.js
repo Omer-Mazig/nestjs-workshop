@@ -12,7 +12,6 @@ const app_controller_1 = require("./app.controller");
 const app_service_1 = require("./app.service");
 const users_module_1 = require("./users/users.module");
 const posts_module_1 = require("./posts/posts.module");
-const auth_module_1 = require("./auth/auth.module");
 const typeorm_1 = require("@nestjs/typeorm");
 const tags_module_1 = require("./tags/tags.module");
 const meta_options_module_1 = require("./meta-options/meta-options.module");
@@ -35,7 +34,6 @@ exports.AppModule = AppModule = __decorate([
             }),
             users_module_1.UsersModule,
             posts_module_1.PostsModule,
-            auth_module_1.AuthModule,
             tags_module_1.TagsModule,
             meta_options_module_1.MetaOptionsModule,
             typeorm_1.TypeOrmModule.forRootAsync({

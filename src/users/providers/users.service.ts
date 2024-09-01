@@ -1,11 +1,9 @@
-import { forwardRef, Inject, Injectable } from '@nestjs/common';
-import { AuthService } from 'src/auth/providers/auth.service';
+import { Injectable } from '@nestjs/common';
 import { GetUserParamsDto } from '../dtos/get-users-params.dto';
 import { Repository } from 'typeorm';
 import { User } from '../user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDtod } from '../dtos/create-user.dto';
-import { ConfigService } from '@nestjs/config';
 
 /**
  * Class to connect to users table and perform business operations
@@ -13,11 +11,6 @@ import { ConfigService } from '@nestjs/config';
 @Injectable()
 export class UsersService {
   constructor(
-    /**
-     * Injecting auth service. just for learning (circular deps).
-     */
-    @Inject(forwardRef(() => AuthService))
-    private readonly authService: AuthService,
     /**
      * Injecting userRepository
      */
@@ -46,9 +39,6 @@ export class UsersService {
     limit: number,
     page: number,
   ) {
-    const isAuth = this.authService.isAuth();
-    console.log(isAuth);
-
     return [
       {
         firstName: 'John',
