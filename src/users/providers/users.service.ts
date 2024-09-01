@@ -1,4 +1,8 @@
-import { Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { GetUserParamsDto } from '../dtos/get-users-params.dto';
 import { Repository } from 'typeorm';
 import { User } from '../user.entity';
@@ -19,11 +23,29 @@ export class UsersService {
   ) {}
 
   public async createUser(createUserDto: CreateUserDtod) {
-    const exsitingUser = await this.userRepository.findOne({
-      where: {
-        email: createUserDto.email,
-      },
-    });
+    let exsitingUser = undefined;
+
+    try {
+      exsitingUser = await this.userRepository.findOne({
+        where: {
+          email: createUserDto.email,
+        },
+      });
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Undable to process you requst please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
+
+    if (exsitingUser) {
+      throw new BadRequestException(
+        'The user already exsist, please check you email',
+        {},
+      );
+    }
 
     const newUser = this.userRepository.create(createUserDto);
     const savedUser = await this.userRepository.save(newUser);
