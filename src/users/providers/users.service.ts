@@ -23,11 +23,6 @@ export class UsersService {
      */
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
-
-    /**
-     * Injecting configService
-     */
-    private readonly configService: ConfigService,
   ) {}
 
   public async createUser(createUserDto: CreateUserDtod) {
@@ -51,9 +46,6 @@ export class UsersService {
     limit: number,
     page: number,
   ) {
-    const env = this.configService.get('S3_BUCKET');
-    console.log(env);
-
     const isAuth = this.authService.isAuth();
     console.log(isAuth);
 

@@ -17,30 +17,34 @@ const typeorm_1 = require("@nestjs/typeorm");
 const tags_module_1 = require("./tags/tags.module");
 const meta_options_module_1 = require("./meta-options/meta-options.module");
 const config_1 = require("@nestjs/config");
+const ENV = process.env.NODE_ENV;
 let AppModule = class AppModule {
 };
 exports.AppModule = AppModule;
 exports.AppModule = AppModule = __decorate([
     (0, common_1.Module)({
         imports: [
-            config_1.ConfigModule.forRoot({ isGlobal: true }),
+            config_1.ConfigModule.forRoot({
+                isGlobal: true,
+                envFilePath: !ENV ? '.env' : `.env.${ENV}`,
+            }),
             users_module_1.UsersModule,
             posts_module_1.PostsModule,
             auth_module_1.AuthModule,
             tags_module_1.TagsModule,
             meta_options_module_1.MetaOptionsModule,
             typeorm_1.TypeOrmModule.forRootAsync({
-                imports: [],
-                inject: [],
-                useFactory: () => ({
+                imports: [config_1.ConfigModule],
+                inject: [config_1.ConfigService],
+                useFactory: (configService) => ({
                     type: 'postgres',
                     autoLoadEntities: true,
                     synchronize: true,
-                    port: 5432,
-                    username: 'postgres',
-                    password: 'PgOm731731',
-                    host: 'localhost',
-                    database: 'nestjs-blog',
+                    port: +configService.get('DATABASE_PORT'),
+                    username: configService.get('DATABASE_USER'),
+                    password: configService.get('DATABASE_PASSWORD'),
+                    host: configService.get('DATABASE_HOST'),
+                    database: configService.get('DATABASE_DATABASE'),
                 }),
             }),
         ],
