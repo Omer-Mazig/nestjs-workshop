@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, RequestTimeoutException } from '@nestjs/common';
 import { CreateTagDto } from '../dtos/create-tag.dto';
 import { In, Repository } from 'typeorm';
 import { Tag } from '../tag.entity';
@@ -13,26 +13,63 @@ export class TagsService {
 
   public async createTag(createTagDto: CreateTagDto) {
     const tag = this.tagsRepository.create(createTagDto);
-    return await this.tagsRepository.save(tag);
+
+    try {
+      return await this.tagsRepository.save(tag);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Undable to process you requst please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
   }
 
   public async findMultipleTags(tags: number[]) {
-    const results = await this.tagsRepository.find({
-      where: {
-        id: In(tags),
-      },
-    });
+    try {
+      const results = await this.tagsRepository.find({
+        where: {
+          id: In(tags),
+        },
+      });
 
-    return results;
+      return results;
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Undable to process you requst please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
   }
 
   public async deleteTag(id: number) {
-    await this.tagsRepository.delete(id);
-    return { deleted: true, id };
+    try {
+      await this.tagsRepository.delete(id);
+      return { deleted: true, id };
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Undable to process you requst please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
   }
 
   public async softRemove(id: number) {
-    await this.tagsRepository.softDelete(id);
-    return { deleted: true, id };
+    try {
+      await this.tagsRepository.softDelete(id);
+      return { deleted: true, id };
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Undable to process you requst please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
   }
 }

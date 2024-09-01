@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, RequestTimeoutException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { MetaOption } from '../meta-option.entity';
 import { Repository } from 'typeorm';
@@ -18,6 +18,15 @@ export class MetaOptionsService {
       createPostMetaOptionsDto,
     );
 
-    return await this.metaOptionRepository.save(metaOption);
+    try {
+      return await this.metaOptionRepository.save(metaOption);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Undable to process you requst please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
   }
 }
