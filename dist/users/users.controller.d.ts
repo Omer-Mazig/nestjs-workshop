@@ -9,6 +9,6 @@ export declare class UsersController {
         firstName: string;
         email: string;
     }[];
-    createUser(createUserDto: CreateUserDtod): Promise<import("./user.entity").User>;
+    createUser(createUserDto: CreateUserDtod): Promise<any>;
     patchUser(patchUserDto: PatchUserDto): string;
 }

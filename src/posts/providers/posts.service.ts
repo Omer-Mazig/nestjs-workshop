@@ -1,4 +1,9 @@
-import { Body, Injectable } from '@nestjs/common';
+import {
+  BadRequestException,
+  Body,
+  Injectable,
+  RequestTimeoutException,
+} from '@nestjs/common';
 import { UsersService } from 'src/users/providers/users.service';
 import { CreatePostDto } from '../dtos/create-post.dto';
 import { Repository } from 'typeorm';
@@ -47,9 +52,39 @@ export class PostsService {
   }
 
   public async updatePost(patchPostDto: PatchPostDto) {
-    const tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
+    let tags = null;
+    let post = null;
 
-    const post = await this.postsRepository.findOneBy({ id: patchPostDto.id });
+    try {
+      tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Undable to process you requst please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
+
+    if (!tags || tags.lenght !== patchPostDto.tags.length) {
+      throw new BadRequestException('Please check you tags ID');
+    }
+
+    try {
+      post = await this.postsRepository.findOneBy({ id: patchPostDto.id });
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Undable to process you requst please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
+
+    if (!post) {
+      throw new BadRequestException('The post ID does not exist');
+    }
+
     post.title = patchPostDto.title ?? post.title;
     post.content = patchPostDto.content ?? post.content;
     post.status = patchPostDto.status ?? post.status;
@@ -61,6 +96,15 @@ export class PostsService {
 
     post.tags = tags;
 
-    return await this.postsRepository.save(post);
+    try {
+      return await this.postsRepository.save(post);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Undable to process you requst please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
   }
 }

@@ -43,12 +43,23 @@ export class UsersService {
     if (exsitingUser) {
       throw new BadRequestException(
         'The user already exsist, please check you email',
-        {},
       );
     }
 
     const newUser = this.userRepository.create(createUserDto);
-    const savedUser = await this.userRepository.save(newUser);
+
+    let savedUser = undefined;
+
+    try {
+      savedUser = await this.userRepository.save(newUser);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Undable to process you requst please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
 
     return savedUser;
   }
@@ -77,6 +88,23 @@ export class UsersService {
    * Finding a single User by id
    */
   public async findOneById(id: number) {
-    return await this.userRepository.findOneBy({ id });
+    let user = undefined;
+
+    try {
+      user = await this.userRepository.findOneBy({ id });
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Undable to process you requst please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
+
+    if (user) {
+      throw new BadRequestException('The user ID does not exist');
+    }
+
+    return user;
   }
 }
