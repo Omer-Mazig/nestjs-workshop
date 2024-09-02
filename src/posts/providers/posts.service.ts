@@ -1,6 +1,6 @@
 import {
   BadRequestException,
-  Body,
+  ConflictException,
   Injectable,
   RequestTimeoutException,
 } from '@nestjs/common';
@@ -14,6 +14,7 @@ import { PatchPostDto } from '../dtos/patch-post.dto';
 import { GetPostsDto } from '../dtos/get-posts.dto';
 import { PaginationProvider } from 'src/common/pagination/providers/pagination.provider';
 import { Paginated } from 'src/common/pagination/interfaces/paginated.interface';
+import { ActiveUserData } from 'src/auth/interfaces/active-user-data.interface';
 
 @Injectable()
 export class PostsService {
@@ -40,13 +41,19 @@ export class PostsService {
     return posts;
   }
 
-  public async create(createPostDto: CreatePostDto) {
-    console.log('create post');
-    console.log(createPostDto);
+  public async create(createPostDto: CreatePostDto, user: ActiveUserData) {
+    let author = null;
+    let tags = null;
+    try {
+      author = await this.usersService.findById(user.sub);
+      tags = await this.tagsService.findMultiple(createPostDto.tags);
+    } catch (error) {
+      throw new ConflictException(error);
+    }
 
-    const author = await this.usersService.findById(createPostDto.authorId);
-
-    const tags = await this.tagsService.findMultiple(createPostDto.tags);
+    if (createPostDto.tags.length !== tags.length) {
+      throw new BadRequestException('Please check you tags ids');
+    }
 
     const post = this.postsRepository.create({
       ...createPostDto,
@@ -54,7 +61,13 @@ export class PostsService {
       tags,
     });
 
-    return await this.postsRepository.save(post);
+    try {
+      return await this.postsRepository.save(post);
+    } catch (error) {
+      throw new ConflictException(error, {
+        description: 'Ensure post slug is uniqe',
+      });
+    }
   }
 
   public async delete(id: number) {
