@@ -15,12 +15,12 @@ export class TagsController {
 
   @Post()
   public createPost(@Body() createTagDto: CreateTagDto) {
-    return this.tagsService.createTag(createTagDto);
+    return this.tagsService.create(createTagDto);
   }
 
   @Delete()
   public deleteTag(@Query('id', ParseIntPipe) id: number) {
-    return this.tagsService.deleteTag(id);
+    return this.tagsService.delete(id);
   }
 
   @Delete('soft-delete')

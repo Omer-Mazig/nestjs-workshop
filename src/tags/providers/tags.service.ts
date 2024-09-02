@@ -11,7 +11,7 @@ export class TagsService {
     private readonly tagsRepository: Repository<Tag>,
   ) {}
 
-  public async createTag(createTagDto: CreateTagDto) {
+  public async create(createTagDto: CreateTagDto) {
     const tag = this.tagsRepository.create(createTagDto);
 
     try {
@@ -26,7 +26,7 @@ export class TagsService {
     }
   }
 
-  public async findMultipleTags(tags: number[]) {
+  public async findMultiple(tags: number[]) {
     try {
       const results = await this.tagsRepository.find({
         where: {
@@ -45,7 +45,7 @@ export class TagsService {
     }
   }
 
-  public async deleteTag(id: number) {
+  public async delete(id: number) {
     try {
       await this.tagsRepository.delete(id);
       return { deleted: true, id };

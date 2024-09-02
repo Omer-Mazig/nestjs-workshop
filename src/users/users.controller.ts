@@ -52,7 +52,7 @@ export class UsersController {
 
   @Post()
   public createUser(@Body() createUserDto: CreateUserDto) {
-    const user = this.userService.createUser(createUserDto);
+    const user = this.userService.create(createUserDto);
     return user;
   }
 

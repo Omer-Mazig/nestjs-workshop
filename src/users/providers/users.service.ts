@@ -22,7 +22,7 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  public async createUser(createUserDto: CreateUserDto) {
+  public async create(createUserDto: CreateUserDto) {
     let exsitingUser = undefined;
 
     try {
@@ -87,7 +87,7 @@ export class UsersService {
   /**
    * Finding a single User by id
    */
-  public async findOneById(id: number) {
+  public async findById(id: number) {
     let user = undefined;
 
     try {

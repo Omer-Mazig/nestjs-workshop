@@ -33,9 +33,9 @@ export class PostsService {
   }
 
   public async createPost(@Body() createPostDto: CreatePostDto) {
-    const author = await this.usersService.findOneById(createPostDto.authorId);
+    const author = await this.usersService.findById(createPostDto.authorId);
 
-    const tags = await this.tagsService.findMultipleTags(createPostDto.tags);
+    const tags = await this.tagsService.findMultiple(createPostDto.tags);
 
     const post = this.postsRepository.create({
       ...createPostDto,
@@ -56,7 +56,7 @@ export class PostsService {
     let post = null;
 
     try {
-      tags = await this.tagsService.findMultipleTags(patchPostDto.tags);
+      tags = await this.tagsService.findMultiple(patchPostDto.tags);
     } catch (error) {
       throw new RequestTimeoutException(
         'Undable to process you requst please try later',
