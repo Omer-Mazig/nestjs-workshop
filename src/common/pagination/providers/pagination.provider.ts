@@ -25,8 +25,6 @@ export class PaginationProvider {
       this.request.protocol + '://' + this.request.headers.host + '/';
     const newUrl = new URL(this.request.url, baseURL);
 
-    console.log(newUrl);
-
     const totalItems = await repository.count();
     const totalPages = Math.ceil(totalItems / paginationQuery.limit);
 
