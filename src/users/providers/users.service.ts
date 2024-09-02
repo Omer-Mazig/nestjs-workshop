@@ -10,6 +10,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
+import { CreateUserProvider } from './create-user.provider';
 
 /**
  * Class to connect to users table and perform business operations
@@ -24,51 +25,17 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
 
     /**
-     * Injecting UsersCreateManyProvider
+     * Injecting usersCreateManyProvider
      */
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
+    /**
+     * Injecting createUserProvider
+     */
+    private readonly createUserProvider: CreateUserProvider,
   ) {}
 
   public async create(createUserDto: CreateUserDto) {
-    let exsitingUser = undefined;
-
-    try {
-      exsitingUser = await this.userRepository.findOne({
-        where: {
-          email: createUserDto.email,
-        },
-      });
-    } catch (error) {
-      throw new RequestTimeoutException(
-        'Undable to process you requst please try later',
-        {
-          description: 'Error connecting to the database',
-        },
-      );
-    }
-
-    if (exsitingUser) {
-      throw new BadRequestException(
-        'The user already exsist, please check you email',
-      );
-    }
-
-    const newUser = this.userRepository.create(createUserDto);
-
-    let savedUser = undefined;
-
-    try {
-      savedUser = await this.userRepository.save(newUser);
-    } catch (error) {
-      throw new RequestTimeoutException(
-        'Undable to process you requst please try later',
-        {
-          description: 'Error connecting to the database',
-        },
-      );
-    }
-
-    return savedUser;
+    return this.createUserProvider.create(createUserDto);
   }
 
   /**
