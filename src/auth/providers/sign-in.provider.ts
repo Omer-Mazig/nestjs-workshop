@@ -8,20 +8,32 @@ import {
 import { SignInDto } from '../dtos/signin.dto';
 import { UsersService } from 'src/users/providers/users.service';
 import { HashingProvider } from './hashing.provider';
+import { JwtService } from '@nestjs/jwt';
+import { ConfigType } from '@nestjs/config';
+import jwtConfig from '../config/jwt.config';
 
 @Injectable()
 export class SignInProvider {
   constructor(
     /**
-     * inject userService
+     * Inject UserService
      */
     @Inject(forwardRef(() => UsersService))
     private readonly userService: UsersService,
 
     /**
-     * inject hashingProvider
+     * Inject HashingProvider
      */
     private readonly hashingProvider: HashingProvider,
+    /**
+     * Inject JwtService
+     */
+    private readonly jwtService: JwtService,
+    /**
+     * Inject JwtConfiguration
+     */
+    @Inject(jwtConfig.KEY)
+    private readonly JwtConfiguration: ConfigType<typeof jwtConfig>,
   ) {}
   public async signIn(signInDto: SignInDto) {
     // will throw an error if user not found (see findOneUserByEmailProvider class)
@@ -44,7 +56,19 @@ export class SignInProvider {
       throw new UnauthorizedException('Incorrect Password');
     }
 
-    // just for now
-    return true;
+    const accessToken = await this.jwtService.signAsync(
+      {
+        sub: user.id,
+        email: user.email,
+      },
+      {
+        audience: this.JwtConfiguration.audience,
+        issuer: this.JwtConfiguration.issuer,
+        secret: this.JwtConfiguration.secret,
+        expiresIn: this.JwtConfiguration.accessTokenTt,
+      },
+    );
+
+    return { accessToken };
   }
 }
