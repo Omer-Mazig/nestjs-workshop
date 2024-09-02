@@ -16,7 +16,7 @@ import {
 } from 'class-validator';
 
 import { CreatePostMetaOptionsDto } from '../../meta-options/dtos/create-post-meta-options.dto';
-import { Type } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
 import { PostStatus } from '../enums/post-status.enum';
 import { PostType } from '../enums/post-type.enum';
 
@@ -91,9 +91,10 @@ export class CreatePostDto {
     description: 'The date on which the blog post is published',
     example: '2024-03-16T07:46:32+0000',
   })
+  @Transform(({ value }) => new Date(value).toISOString())
   @IsISO8601()
   @IsOptional()
-  publishOn?: Date;
+  publishOn?: string;
 
   @ApiPropertyOptional({
     description: 'Array of ids of tags',

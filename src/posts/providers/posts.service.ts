@@ -32,7 +32,10 @@ export class PostsService {
     return posts;
   }
 
-  public async create(@Body() createPostDto: CreatePostDto) {
+  public async create(createPostDto: CreatePostDto) {
+    console.log('create post');
+    console.log(createPostDto);
+
     const author = await this.usersService.findById(createPostDto.authorId);
 
     const tags = await this.tagsService.findMultiple(createPostDto.tags);

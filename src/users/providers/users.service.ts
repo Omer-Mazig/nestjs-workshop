@@ -96,6 +96,7 @@ export class UsersService {
    */
   public async findById(id: number) {
     let user = undefined;
+    console.log('findById id  ', id);
 
     try {
       user = await this.userRepository.findOneBy({ id });
@@ -108,7 +109,7 @@ export class UsersService {
       );
     }
 
-    if (user) {
+    if (!user) {
       throw new BadRequestException('The user ID does not exist');
     }
 
