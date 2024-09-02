@@ -92,6 +92,6 @@ export class UsersService {
   }
 
   public async findOneByEmail(email: string) {
-    return this.findOneUserByEmailProvider.findOneByEmail(email);
+    return await this.findOneUserByEmailProvider.findOneByEmail(email);
   }
 }
