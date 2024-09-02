@@ -60,4 +60,9 @@ export class UsersController {
   public patchUser(@Body() patchUserDto: PatchUserDto) {
     return `Patching user with body: ${JSON.stringify(patchUserDto)}`;
   }
+
+  @Post('create-many')
+  public createManyUsers(@Body() createUsersDto: CreateUserDto[]) {
+    return this.userService.createMany(createUsersDto);
+  }
 }
