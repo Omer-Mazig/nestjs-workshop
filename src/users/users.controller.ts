@@ -69,7 +69,6 @@ export class UsersController {
     return `Patching user with body: ${JSON.stringify(patchUserDto)}`;
   }
 
-  @UseGuards(AccessTokenGuard)
   @Post('create-many')
   public createManyUsers(@Body() createManyUsersDto: CreateManyUsersDto) {
     return this.userService.createMany(createManyUsersDto);
