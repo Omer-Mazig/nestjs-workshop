@@ -32,7 +32,7 @@ export class PostsService {
     return posts;
   }
 
-  public async createPost(@Body() createPostDto: CreatePostDto) {
+  public async create(@Body() createPostDto: CreatePostDto) {
     const author = await this.usersService.findById(createPostDto.authorId);
 
     const tags = await this.tagsService.findMultiple(createPostDto.tags);
@@ -46,12 +46,12 @@ export class PostsService {
     return await this.postsRepository.save(post);
   }
 
-  public async deletePost(id: number) {
+  public async delete(id: number) {
     await this.postsRepository.delete(id);
     return { deleted: true, id };
   }
 
-  public async updatePost(patchPostDto: PatchPostDto) {
+  public async update(patchPostDto: PatchPostDto) {
     let tags = null;
     let post = null;
 

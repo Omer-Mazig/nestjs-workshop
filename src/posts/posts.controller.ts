@@ -33,7 +33,7 @@ export class PostsController {
   })
   @Post()
   public createPost(@Body() createPostDto: CreatePostDto) {
-    return this.postsService.createPost(createPostDto);
+    return this.postsService.create(createPostDto);
   }
 
   @ApiOperation({
@@ -45,7 +45,7 @@ export class PostsController {
   })
   @Patch()
   public updatePost(@Body() patchPostDto: PatchPostDto) {
-    return this.postsService.updatePost(patchPostDto);
+    return this.postsService.update(patchPostDto);
   }
 
   @Delete()
@@ -53,6 +53,6 @@ export class PostsController {
     @Query('id', ParseIntPipe)
     id: number,
   ) {
-    return this.postsService.deletePost(id);
+    return this.postsService.delete(id);
   }
 }
