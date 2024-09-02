@@ -9,7 +9,7 @@ import {
   Post,
   Query,
 } from '@nestjs/common';
-import { CreateUserDtod } from './dtos/create-user.dto';
+import { CreateUserDto } from './dtos/create-user.dto';
 import { GetUserParamsDto } from './dtos/get-users-params.dto';
 import { PatchUserDto } from './dtos/patch-user.dto';
 import { UsersService } from './providers/users.service';
@@ -51,7 +51,7 @@ export class UsersController {
   }
 
   @Post()
-  public createUser(@Body() createUserDto: CreateUserDtod) {
+  public createUser(@Body() createUserDto: CreateUserDto) {
     const user = this.userService.createUser(createUserDto);
     return user;
   }

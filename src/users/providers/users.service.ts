@@ -7,7 +7,7 @@ import { GetUserParamsDto } from '../dtos/get-users-params.dto';
 import { Repository } from 'typeorm';
 import { User } from '../user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDtod } from '../dtos/create-user.dto';
+import { CreateUserDto } from '../dtos/create-user.dto';
 
 /**
  * Class to connect to users table and perform business operations
@@ -22,7 +22,7 @@ export class UsersService {
     private readonly userRepository: Repository<User>,
   ) {}
 
-  public async createUser(createUserDto: CreateUserDtod) {
+  public async createUser(createUserDto: CreateUserDto) {
     let exsitingUser = undefined;
 
     try {
@@ -107,4 +107,6 @@ export class UsersService {
 
     return user;
   }
+
+  public async createMany(createUserDto: CreateUserDto[]) {}
 }

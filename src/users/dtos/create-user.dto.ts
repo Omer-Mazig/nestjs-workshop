@@ -8,7 +8,7 @@ import {
   MinLength,
 } from 'class-validator';
 
-export class CreateUserDtod {
+export class CreateUserDto {
   @IsString()
   @IsNotEmpty()
   @MinLength(3)
