@@ -10,9 +10,11 @@ import jwtConfig from './config/jwt.config';
 import { JwtModule } from '@nestjs/jwt';
 import { GenerateTokensProvider } from './providers/generate-tokens.provider';
 import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
+import { GoogleAuthenticationController } from './social/google-authentication.controller';
+import { GoogleAuthenticationService } from './social/providers/google-authentication.service';
 
 @Module({
-  controllers: [AuthController],
+  controllers: [AuthController, GoogleAuthenticationController],
   providers: [
     AuthService,
     // The HashingProvider is an abstract class, so we need to specify
@@ -24,6 +26,7 @@ import { RefreshTokensProvider } from './providers/refresh-tokens.provider';
     SignInProvider,
     GenerateTokensProvider,
     RefreshTokensProvider,
+    GoogleAuthenticationService,
   ],
   imports: [
     // Use forwardRef to avoid circular dependency issues between
