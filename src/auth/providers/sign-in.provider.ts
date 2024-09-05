@@ -12,6 +12,7 @@ import { JwtService } from '@nestjs/jwt';
 import { ConfigType } from '@nestjs/config';
 import jwtConfig from '../config/jwt.config';
 import { ActiveUserData } from '../interfaces/active-user-data.interface';
+import { GenerateTokensProvider } from './generate-tokens.provider';
 
 @Injectable()
 export class SignInProvider {
@@ -21,20 +22,14 @@ export class SignInProvider {
      */
     @Inject(forwardRef(() => UsersService))
     private readonly userService: UsersService,
-
     /**
      * Inject HashingProvider
      */
     private readonly hashingProvider: HashingProvider,
     /**
-     * Inject JwtService
+     * Inject GenerateTokensProvider
      */
-    private readonly jwtService: JwtService,
-    /**
-     * Inject JwtConfiguration
-     */
-    @Inject(jwtConfig.KEY)
-    private readonly JwtConfiguration: ConfigType<typeof jwtConfig>,
+    private readonly generateTokensProvider: GenerateTokensProvider,
   ) {}
   public async signIn(signInDto: SignInDto) {
     // will throw an error if user not found (see findOneUserByEmailProvider class)
@@ -57,19 +52,6 @@ export class SignInProvider {
       throw new UnauthorizedException('Incorrect Password');
     }
 
-    const accessToken = await this.jwtService.signAsync(
-      {
-        sub: user.id,
-        email: user.email,
-      } as ActiveUserData,
-      {
-        audience: this.JwtConfiguration.audience,
-        issuer: this.JwtConfiguration.issuer,
-        secret: this.JwtConfiguration.secret,
-        expiresIn: this.JwtConfiguration.accessTokenTt,
-      },
-    );
-
-    return { accessToken };
+    return await this.generateTokensProvider.generateToken(user);
   }
 }
