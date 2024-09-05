@@ -1,17 +1,19 @@
 import {
   BadRequestException,
+  forwardRef,
+  Inject,
   Injectable,
   RequestTimeoutException,
+  UnauthorizedException,
 } from '@nestjs/common';
 import { GetUserParamsDto } from '../dtos/get-users-params.dto';
-import { Repository } from 'typeorm';
+import { FindOptionsWhere, Repository } from 'typeorm';
 import { User } from '../user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
 import { CreateUserDto } from '../dtos/create-user.dto';
 import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
-import { CreateUserProvider } from './create-user.provider';
-import { FindOneUserByEmailProvider } from './find-one-user-by-email.provider';
+import { HashingProvider } from 'src/auth/providers/hashing.provider';
 
 /**
  * Class to connect to users table and perform business operations
@@ -29,23 +31,14 @@ export class UsersService {
      * Injecting usersCreateManyProvider
      */
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
+
     /**
-     * Injecting createUserProvider
+     * inject hashingProvider
      */
-    private readonly createUserProvider: CreateUserProvider,
-    /**
-     * Injecting findOneUserByEmailProvider
-     */
-    private readonly findOneUserByEmailProvider: FindOneUserByEmailProvider,
+    @Inject(forwardRef(() => HashingProvider))
+    private readonly hashingProvider: HashingProvider,
   ) {}
 
-  public async create(createUserDto: CreateUserDto) {
-    return this.createUserProvider.create(createUserDto);
-  }
-
-  /**
-   * The method to get all the users for the database
-   */
   public findAll(
     getUserParamsDto: GetUserParamsDto,
     limit: number,
@@ -63,14 +56,23 @@ export class UsersService {
     ];
   }
 
-  /**
-   * Finding a single User by id
-   */
-  public async findById(id: number) {
-    let user = null;
+  public async findById(id: number): Promise<User> {
+    return this._findUserByCriteria({ id });
+  }
+
+  public async findOneByEmail(email: string): Promise<User> {
+    return this._findUserByCriteria({ email });
+  }
+
+  public async create(createUserDto: CreateUserDto) {
+    let exsitingUser = null;
 
     try {
-      user = await this.userRepository.findOneBy({ id });
+      exsitingUser = await this.userRepository.findOne({
+        where: {
+          email: createUserDto.email,
+        },
+      });
     } catch (error) {
       throw new RequestTimeoutException(
         'Undable to process you requst please try later',
@@ -80,11 +82,31 @@ export class UsersService {
       );
     }
 
-    if (!user) {
-      throw new BadRequestException('The user ID does not exist');
+    if (exsitingUser) {
+      throw new BadRequestException(
+        'The user already exsist, please check you email',
+      );
     }
 
-    return user;
+    const newUser = this.userRepository.create({
+      ...createUserDto,
+      password: await this.hashingProvider.hashPassword(createUserDto.password),
+    });
+
+    let savedUser = null;
+
+    try {
+      savedUser = await this.userRepository.save(newUser);
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Undable to process you requst please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
+
+    return savedUser;
   }
 
   // consider remove abstruction by calling the database here
@@ -92,8 +114,28 @@ export class UsersService {
     return await this.usersCreateManyProvider.createMany(createManyUsersDto);
   }
 
-  // consider remove abstruction by calling the database here
-  public async findOneByEmail(email: string) {
-    return await this.findOneUserByEmailProvider.findOneByEmail(email);
+  private async _findUserByCriteria(
+    criteria: FindOptionsWhere<User>,
+  ): Promise<User> {
+    let user: User | null = null;
+
+    try {
+      user = await this.userRepository.findOne({
+        where: criteria,
+      });
+    } catch (error) {
+      throw new RequestTimeoutException(
+        'Unable to process your request, please try later',
+        {
+          description: 'Error connecting to the database',
+        },
+      );
+    }
+
+    if (!user) {
+      throw new BadRequestException('User does not exist');
+    }
+
+    return user;
   }
 }

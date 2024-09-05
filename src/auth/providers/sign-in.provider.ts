@@ -8,10 +8,6 @@ import {
 import { SignInDto } from '../dtos/signin.dto';
 import { UsersService } from 'src/users/providers/users.service';
 import { HashingProvider } from './hashing.provider';
-import { JwtService } from '@nestjs/jwt';
-import { ConfigType } from '@nestjs/config';
-import jwtConfig from '../config/jwt.config';
-import { ActiveUserData } from '../interfaces/active-user-data.interface';
 import { GenerateTokensProvider } from './generate-tokens.provider';
 
 @Injectable()
@@ -32,7 +28,7 @@ export class SignInProvider {
     private readonly generateTokensProvider: GenerateTokensProvider,
   ) {}
   public async signIn(signInDto: SignInDto) {
-    // will throw an error if user not found (see findOneUserByEmailProvider class)
+    // will throw an error if user not found (see userService.findOneByEmail)
     const user = await this.userService.findOneByEmail(signInDto.email);
 
     let isEqual = false;
