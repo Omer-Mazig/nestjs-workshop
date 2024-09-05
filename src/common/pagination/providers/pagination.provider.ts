@@ -12,13 +12,16 @@ export class PaginationProvider {
     private readonly request: Request,
   ) {}
 
+  // TODO: add rest of the query (not just pagination)
   public async paginateQuery<T extends ObjectLiteral>(
     paginationQuery: PaginationQueryDto,
+    restOfQuery, // ?
     repository: Repository<T>,
   ): Promise<Paginated<T>> {
     const results = await repository.find({
       skip: (paginationQuery.page - 1) * paginationQuery.limit,
       take: paginationQuery.limit,
+      ...restOfQuery, // ?
     });
 
     const baseURL =

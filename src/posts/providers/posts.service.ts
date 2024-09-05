@@ -35,6 +35,11 @@ export class PostsService {
         limit: postQuery.limit,
         page: postQuery.page,
       },
+      {
+        where: {
+          title: postQuery.title,
+        },
+      }, // ?
       this.postsRepository,
     );
 
@@ -109,6 +114,7 @@ export class PostsService {
       throw new BadRequestException('The post ID does not exist');
     }
 
+    // spread will break this code
     post.title = patchPostDto.title ?? post.title;
     post.content = patchPostDto.content ?? post.content;
     post.status = patchPostDto.status ?? post.status;

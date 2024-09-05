@@ -67,8 +67,7 @@ export class UsersService {
    * Finding a single User by id
    */
   public async findById(id: number) {
-    let user = undefined;
-    console.log('findById id  ', id);
+    let user = null;
 
     try {
       user = await this.userRepository.findOneBy({ id });
@@ -87,10 +86,13 @@ export class UsersService {
 
     return user;
   }
+
+  // consider remove abstruction by calling the database here
   public async createMany(createManyUsersDto: CreateManyUsersDto) {
     return await this.usersCreateManyProvider.createMany(createManyUsersDto);
   }
 
+  // consider remove abstruction by calling the database here
   public async findOneByEmail(email: string) {
     return await this.findOneUserByEmailProvider.findOneByEmail(email);
   }
