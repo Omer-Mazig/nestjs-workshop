@@ -52,6 +52,6 @@ export class SignInProvider {
       throw new UnauthorizedException('Incorrect Password');
     }
 
-    return await this.generateTokensProvider.generateToken(user);
+    return await this.generateTokensProvider.generateTokens(user);
   }
 }

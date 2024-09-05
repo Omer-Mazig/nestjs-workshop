@@ -51,7 +51,7 @@ export class RefreshTokensProvider {
       const user = await this.userService.findById(sub);
 
       // Generate the tokens
-      return await this.generateTokensProvider.generateToken(user);
+      return await this.generateTokensProvider.generateTokens(user);
     } catch (error) {
       throw new UnauthorizedException();
     }

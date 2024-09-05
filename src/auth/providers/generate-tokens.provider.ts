@@ -40,7 +40,7 @@ export class GenerateTokensProvider {
     );
   }
 
-  public async generateToken(user: User) {
+  public async generateTokens(user: User) {
     const [accessToken, refreshToken] = await Promise.all([
       // Access Token
       this.signToken<Partial<ActiveUserData>>(
