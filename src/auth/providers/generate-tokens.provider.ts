@@ -19,10 +19,16 @@ export class GenerateTokensProvider {
     private readonly JwtConfiguration: ConfigType<typeof jwtConfig>,
   ) {}
 
-  public async signToken<T>(userId: number, expiresIn: number, payload?: T) {
+  public async signToken<T>(
+    userId: number,
+    expiresIn: number,
+    type: 'access' | 'refresh', // Add type parameter
+    payload?: T,
+  ) {
     return await this.jwtService.signAsync(
       {
         sub: userId,
+        type, // Include the token type in the payload
         ...payload,
       },
       {
@@ -39,14 +45,15 @@ export class GenerateTokensProvider {
       // Access Token
       this.signToken<Partial<ActiveUserData>>(
         user.id,
-        this.JwtConfiguration.accessTokenTt,
+        this.JwtConfiguration.accessTokenTtl,
+        'access', // Specify token type as 'access'
         {
           email: user.email,
         },
       ),
 
       // Refresh Token
-      this.signToken(user.id, this.JwtConfiguration.refreshTokenTt),
+      this.signToken(user.id, this.JwtConfiguration.refreshTokenTtl, 'refresh'), // Specify token type as 'refresh'
     ]);
 
     return {
