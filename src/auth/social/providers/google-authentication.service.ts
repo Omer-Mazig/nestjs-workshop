@@ -58,7 +58,7 @@ export class GoogleAuthenticationService implements OnModuleInit {
       // Find the user by the google ID
       const user = await this.userService.findOneByGoogleId(googleId);
 
-      // IF exist - generate token
+      // If exist - generate token
       if (user) {
         return this.generateTokenProvider.generateTokens(user);
       }
