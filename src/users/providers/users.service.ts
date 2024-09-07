@@ -56,12 +56,16 @@ export class UsersService {
     ];
   }
 
-  public async findById(id: number): Promise<User> {
+  public async findById(id: number) {
     return this._findUserByCriteria({ id });
   }
 
-  public async findOneByEmail(email: string): Promise<User> {
+  public async findOneByEmail(email: string) {
     return this._findUserByCriteria({ email });
+  }
+
+  public async findOneByGoogleId(googleId: string) {
+    return await this._findUserByCriteria({ googleId });
   }
 
   public async create(createUserDto: CreateUserDto) {
@@ -114,9 +118,7 @@ export class UsersService {
     return await this.usersCreateManyProvider.createMany(createManyUsersDto);
   }
 
-  private async _findUserByCriteria(
-    criteria: FindOptionsWhere<User>,
-  ): Promise<User> {
+  private async _findUserByCriteria(criteria: FindOptionsWhere<User>) {
     let user: User | null = null;
 
     try {
