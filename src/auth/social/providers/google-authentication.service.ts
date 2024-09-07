@@ -1,4 +1,10 @@
-import { forwardRef, Inject, Injectable, OnModuleInit } from '@nestjs/common';
+import {
+  forwardRef,
+  Inject,
+  Injectable,
+  OnModuleInit,
+  UnauthorizedException,
+} from '@nestjs/common';
 import { ConfigType } from '@nestjs/config';
 import { OAuth2Client } from 'google-auth-library';
 import jwtConfig from 'src/auth/config/jwt.config';
@@ -35,27 +41,39 @@ export class GoogleAuthenticationService implements OnModuleInit {
   }
 
   public async authenticate(googleTokenDto: GoogleTokenDto) {
-    // Verify the google token
-    const loginTicket = await this.oauthClien.verifyIdToken({
-      idToken: googleTokenDto.token,
-    });
+    try {
+      // Verify the google token
+      const loginTicket = await this.oauthClien.verifyIdToken({
+        idToken: googleTokenDto.token,
+      });
 
-    // Extract payload
-    const {
-      email,
-      sub: googleId,
-      given_name: firstName,
-      family_name: lastName,
-    } = loginTicket.getPayload();
+      // Extract payload
+      const {
+        email,
+        sub: googleId,
+        given_name: firstName,
+        family_name: lastName,
+      } = loginTicket.getPayload();
 
-    // Find the user by the google ID
-    const user = await this.userService.findOneByGoogleId(googleId);
+      // Find the user by the google ID
+      const user = await this.userService.findOneByGoogleId(googleId);
 
-    // IF exist - generate token
-    if (user) {
-      return this.generateTokenProvider.generateTokens(user);
+      // IF exist - generate token
+      if (user) {
+        return this.generateTokenProvider.generateTokens(user);
+      }
+
+      // If not - create a new user and then generate token
+      const newUser = await this.userService.createGoogleUser({
+        email,
+        googleId,
+        firstName,
+        lastName,
+      });
+
+      return this.generateTokenProvider.generateTokens(newUser);
+    } catch (error) {
+      throw new UnauthorizedException(error);
     }
-    // If not - create a new user and then generate token
-    // Throw Unauthorised error
   }
 }
