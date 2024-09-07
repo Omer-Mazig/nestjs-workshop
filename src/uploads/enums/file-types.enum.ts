@@ -1,3 +1,3 @@
-export enum FileType {
+export enum FileTypes {
   IMAGE = 'image',
 }

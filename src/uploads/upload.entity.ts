@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   UpdateDateColumn,
 } from 'typeorm';
-import { FileType } from './enums/file-types.enum';
+import { FileTypes } from './enums/file-types.enum';
 
 @Entity()
 export class Upload {
@@ -28,8 +28,8 @@ export class Upload {
 
   @Column({
     type: 'enum',
-    enum: FileType,
-    default: FileType.IMAGE,
+    enum: FileTypes,
+    default: FileTypes.IMAGE,
     nullable: false,
   })
   type: string;
