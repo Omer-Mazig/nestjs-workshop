@@ -37,8 +37,6 @@ async function bootstrap() {
   SwaggerModule.setup('api', app, document);
 
   app.enableCors();
-  app.useGlobalInterceptors(new DataResponseInterceptor()); // custom interceptor
-
   await app.listen(3000);
 }
 bootstrap();
