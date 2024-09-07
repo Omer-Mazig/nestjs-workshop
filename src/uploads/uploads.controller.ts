@@ -7,9 +7,17 @@ import {
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiHeaders, ApiOperation } from '@nestjs/swagger';
 import { Express } from 'express';
+import { UploadsService } from './providers/uploads.service';
 
 @Controller('uploads')
 export class UploadsController {
+  constructor(
+    /**
+     * Injecting UploadsService
+     */
+    private readonly uploadsService: UploadsService,
+  ) {}
+
   @UseInterceptors(FileInterceptor('file'))
   @ApiHeaders([
     {
@@ -25,5 +33,7 @@ export class UploadsController {
     summary: 'Upload a new image to the server',
   })
   @Post('file')
-  public uploadFile(@UploadedFile() file: Express.Multer.File) {}
+  public uploadFile(@UploadedFile() file: Express.Multer.File) {
+    return this.uploadsService.uploadFile(file);
+  }
 }
