@@ -40,10 +40,13 @@ export class GoogleAuthenticationService implements OnModuleInit {
       idToken: googleTokenDto.token,
     });
 
-    console.log(loginTicket);
-
     // Extract payload
-    const { email, sub: googleId } = loginTicket.getPayload();
+    const {
+      email,
+      sub: googleId,
+      given_name: firstName,
+      family_name: lastName,
+    } = loginTicket.getPayload();
 
     // Find the user by the google ID
     const user = await this.userService.findOneByGoogleId(googleId);

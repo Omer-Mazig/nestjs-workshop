@@ -1,5 +1,6 @@
 import {
   BadRequestException,
+  ConflictException,
   forwardRef,
   Inject,
   Injectable,
@@ -14,6 +15,7 @@ import { CreateUserDto } from '../dtos/create-user.dto';
 import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
 import { HashingProvider } from 'src/auth/providers/hashing.provider';
+import { GoogleUser } from '../interfaces/google-user.interface';
 
 /**
  * Class to connect to users table and perform business operations
@@ -111,6 +113,17 @@ export class UsersService {
     }
 
     return savedUser;
+  }
+
+  public async createGoogleUser(googleUser: GoogleUser) {
+    try {
+      const user = this.userRepository.create(googleUser);
+      return await this.userRepository.save(user);
+    } catch (error) {
+      throw new ConflictException(error, {
+        description: 'Could not create a new google user',
+      });
+    }
   }
 
   // consider remove abstruction by calling the database here
