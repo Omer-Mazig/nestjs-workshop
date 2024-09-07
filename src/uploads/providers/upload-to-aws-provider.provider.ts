@@ -22,6 +22,7 @@ export class UploadToAwsProviderProvider {
 
       return uploadResult.Key;
     } catch (error) {
+      console.log('RequestTimeoutException', error);
       throw new RequestTimeoutException(error);
     }
   }
