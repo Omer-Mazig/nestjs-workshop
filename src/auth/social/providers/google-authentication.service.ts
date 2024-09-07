@@ -40,6 +40,8 @@ export class GoogleAuthenticationService implements OnModuleInit {
       idToken: googleTokenDto.token,
     });
 
+    console.log(loginTicket);
+
     // Extract payload
     const { email, sub: googleId } = loginTicket.getPayload();
 
