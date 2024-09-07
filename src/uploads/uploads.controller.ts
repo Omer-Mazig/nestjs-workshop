@@ -6,8 +6,8 @@ import {
 } from '@nestjs/common';
 import { FileInterceptor } from '@nestjs/platform-express';
 import { ApiHeaders, ApiOperation } from '@nestjs/swagger';
-import { Express } from 'express';
 import { UploadsService } from './providers/uploads.service';
+import { Express } from 'express';
 
 @Controller('uploads')
 export class UploadsController {
