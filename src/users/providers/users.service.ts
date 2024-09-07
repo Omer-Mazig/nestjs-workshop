@@ -27,7 +27,7 @@ export class UsersService {
      * Injecting userRepository
      */
     @InjectRepository(User)
-    private readonly userRepository: Repository<User>,
+    private readonly usersRepository: Repository<User>,
 
     /**
      * Injecting usersCreateManyProvider
@@ -67,14 +67,14 @@ export class UsersService {
   }
 
   public async findOneByGoogleId(googleId: string) {
-    return await this._findUserByCriteria({ googleId });
+    return await this.usersRepository.findOneBy({ googleId });
   }
 
   public async create(createUserDto: CreateUserDto) {
     let exsitingUser = null;
 
     try {
-      exsitingUser = await this.userRepository.findOne({
+      exsitingUser = await this.usersRepository.findOne({
         where: {
           email: createUserDto.email,
         },
@@ -94,7 +94,7 @@ export class UsersService {
       );
     }
 
-    const newUser = this.userRepository.create({
+    const newUser = this.usersRepository.create({
       ...createUserDto,
       password: await this.hashingProvider.hashPassword(createUserDto.password),
     });
@@ -102,7 +102,7 @@ export class UsersService {
     let savedUser = null;
 
     try {
-      savedUser = await this.userRepository.save(newUser);
+      savedUser = await this.usersRepository.save(newUser);
     } catch (error) {
       throw new RequestTimeoutException(
         'Undable to process you requst please try later',
@@ -117,8 +117,8 @@ export class UsersService {
 
   public async createGoogleUser(googleUser: GoogleUser) {
     try {
-      const user = this.userRepository.create(googleUser);
-      return await this.userRepository.save(user);
+      const user = this.usersRepository.create(googleUser);
+      return await this.usersRepository.save(user);
     } catch (error) {
       throw new ConflictException(error, {
         description: 'Could not create a new google user',
@@ -135,7 +135,7 @@ export class UsersService {
     let user: User | null = null;
 
     try {
-      user = await this.userRepository.findOne({
+      user = await this.usersRepository.findOne({
         where: criteria,
       });
     } catch (error) {
@@ -148,6 +148,7 @@ export class UsersService {
     }
 
     if (!user) {
+      console.log('error: User does not exist');
       throw new BadRequestException('User does not exist');
     }
 

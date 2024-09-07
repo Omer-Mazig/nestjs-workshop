@@ -41,39 +41,41 @@ export class GoogleAuthenticationService implements OnModuleInit {
   }
 
   public async authenticate(googleTokenDto: GoogleTokenDto) {
-    try {
-      // Verify the google token
-      const loginTicket = await this.oauthClien.verifyIdToken({
-        idToken: googleTokenDto.token,
-      });
+    // Verify the google token
+    const loginTicket = await this.oauthClien.verifyIdToken({
+      idToken: googleTokenDto.token,
+    });
 
-      // Extract payload
-      const {
-        email,
-        sub: googleId,
-        given_name: firstName,
-        family_name: lastName,
-      } = loginTicket.getPayload();
+    // Extract payload
+    const {
+      email,
+      sub: googleId,
+      given_name: firstName,
+      family_name: lastName,
+    } = loginTicket.getPayload();
 
-      // Find the user by the google ID
-      const user = await this.userService.findOneByGoogleId(googleId);
+    console.log(googleId);
 
-      // IF exist - generate token
-      if (user) {
-        return this.generateTokenProvider.generateTokens(user);
-      }
+    // Find the user by the google ID
+    const user = await this.userService.findOneByGoogleId(googleId);
 
-      // If not - create a new user and then generate token
-      const newUser = await this.userService.createGoogleUser({
-        email,
-        googleId,
-        firstName,
-        lastName,
-      });
+    console.log(user);
 
-      return this.generateTokenProvider.generateTokens(newUser);
-    } catch (error) {
-      throw new UnauthorizedException(error);
+    // IF exist - generate token
+    if (user) {
+      return this.generateTokenProvider.generateTokens(user);
     }
+
+    // If not - create a new user and then generate token
+    const newUser = await this.userService.createGoogleUser({
+      email,
+      googleId,
+      firstName,
+      lastName,
+    });
+
+    console.log(newUser);
+
+    return this.generateTokenProvider.generateTokens(newUser);
   }
 }
