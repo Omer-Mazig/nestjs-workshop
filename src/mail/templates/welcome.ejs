@@ -1,14 +1,41 @@
-<p>Dear <%= name %></p>
-
-<p>
-  Thanks for signing up for our blog. We're very excited to have you on board
+<p
+  style="
+    font-weight: 700;
+    text-transform: capitalize;
+    font-size: 18px;
+    margin-bottom: 10px;
+    color: #4a4a4a;
+  "
+>
+  Dear <%= name %>,
 </p>
 
-<p>Here are your account details:</p>
+<p
+  style="font-size: 16px; line-height: 1.5; color: #4a4a4a; margin-bottom: 20px"
+>
+  Thanks for signing up for our blog. We're very excited to have you on board.
+</p>
 
-<ul>
+<p
+  style="font-size: 16px; line-height: 1.5; color: #4a4a4a; margin-bottom: 10px"
+>
+  Here are your account details:
+</p>
+
+<ul
+  style="
+    color: #333333;
+    font-size: 16px;
+    line-height: 1.5;
+    margin-bottom: 20px;
+    padding-left: 20px;
+  "
+>
   <li>Email: <%= email %></li>
   <li>Login URL: <%= loginUrl %></li>
 </ul>
 
-<p>Thanks! NestJs Blog Support</p>
+<p style="font-size: 16px; line-height: 1.5; color: #4a4a4a">
+  Thanks! <br />
+  NestJs Blog Support
+</p>
