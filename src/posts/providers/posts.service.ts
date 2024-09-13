@@ -26,6 +26,7 @@ export class PostsService {
     private readonly paginationProvider: PaginationProvider,
   ) {}
 
+  // TODO: add error handling
   public async findAll(
     postQuery: GetPostsDto,
     userId: string,
@@ -75,6 +76,7 @@ export class PostsService {
     }
   }
 
+  // TODO: add error handling
   public async delete(id: number) {
     await this.postsRepository.delete(id);
     return { deleted: true, id };
