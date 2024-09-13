@@ -16,19 +16,19 @@ import { MailService } from 'src/mail/providers/mail.service';
 export class CreateUserProvider {
   constructor(
     /**
-     * Injecting usersRepository
+     * Injecting UsersRepository
      */
     @InjectRepository(User)
     private usersRepository: Repository<User>,
 
     /**
-     * Inject BCrypt Provider
+     * Injecting HashingProvider
      */
     @Inject(forwardRef(() => HashingProvider))
     private readonly hashingProvider: HashingProvider,
 
     /**
-     * Inject mailService
+     * Injecting MailService
      */
     private readonly mailService: MailService,
   ) {}
