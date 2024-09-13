@@ -12,7 +12,7 @@ import { EjsAdapter } from '@nestjs-modules/mailer/dist/adapters/ejs.adapter';
       inject: [ConfigService],
       useFactory: async (config: ConfigService) => ({
         transport: {
-          hostname: config.get('appConfig.mailHost'),
+          host: config.get('appConfig.mailHost'),
           secure: false,
           port: 2525,
           auth: {

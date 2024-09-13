@@ -16,6 +16,7 @@ import { UsersCreateManyProvider } from './users-create-many.provider';
 import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
 import { HashingProvider } from 'src/auth/providers/hashing.provider';
 import { GoogleUser } from '../interfaces/google-user.interface';
+import { MailService } from 'src/mail/providers/mail.service';
 
 /**
  * Class to connect to users table and perform business operations
@@ -24,21 +25,26 @@ import { GoogleUser } from '../interfaces/google-user.interface';
 export class UsersService {
   constructor(
     /**
-     * Injecting userRepository
+     * Injecting UserRepository
      */
     @InjectRepository(User)
     private readonly usersRepository: Repository<User>,
 
     /**
-     * Injecting usersCreateManyProvider
+     * Injecting UsersCreateManyProvider
      */
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
 
     /**
-     * inject hashingProvider
+     * injecting HashingProvider
      */
     @Inject(forwardRef(() => HashingProvider))
     private readonly hashingProvider: HashingProvider,
+
+    /**
+     * injecting MailService
+     */
+    private readonly mailService: MailService,
   ) {}
 
   public findAll(
@@ -110,6 +116,13 @@ export class UsersService {
           description: 'Error connecting to the database',
         },
       );
+    }
+
+    try {
+      await this.mailService.sendUserWelcome(savedUser);
+    } catch (error) {
+      console.log('UserService - Error while sending mail', error);
+      throw new RequestTimeoutException(error);
     }
 
     return savedUser;
