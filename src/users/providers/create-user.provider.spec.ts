@@ -5,6 +5,7 @@ import { HashingProvider } from 'src/auth/providers/hashing.provider';
 import { DataSource, Repository } from 'typeorm';
 import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../user.entity';
+import { BadRequestException } from '@nestjs/common';
 
 type MockRepository<T = any> = Partial<Record<keyof Repository<T>, jest.Mock>>;
 
@@ -49,5 +50,37 @@ describe('CreateUserProvider', () => {
 
   it('Should be defined', () => {
     expect(provider).toBeDefined();
+  });
+
+  describe('createUser', () => {
+    describe('When the user does not exist in database', () => {
+      it('should create a new user', async () => {
+        usersRepository.findOne.mockReturnValue(null);
+        usersRepository.create.mockReturnValue(user);
+        usersRepository.save.mockReturnValue(user);
+
+        const newUser = await provider.createUser(user);
+
+        expect(usersRepository.findOne).toHaveBeenCalledWith({
+          where: { email: user.email },
+        });
+        expect(usersRepository.create).toHaveBeenCalledWith(user);
+        expect(usersRepository.save).toHaveBeenCalledWith(user);
+      });
+    });
+
+    describe('When user exists', () => {
+      it('throw BadRequestException', async () => {
+        usersRepository.findOne.mockReturnValue(user.email);
+        usersRepository.create.mockReturnValue(user);
+        usersRepository.save.mockReturnValue(user);
+
+        try {
+          const newUser = await provider.createUser(user);
+        } catch (error) {
+          expect(error).toBeInstanceOf(BadRequestException);
+        }
+      });
+    });
   });
 });
