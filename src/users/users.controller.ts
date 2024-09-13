@@ -60,7 +60,6 @@ export class UsersController {
   }
 
   @Post()
-  // @SetMetadata('authType', 'none')
   @UseInterceptors(ClassSerializerInterceptor)
   @Auth(AuthType.None)
   public createUsers(@Body() createUserDto: CreateUserDto) {

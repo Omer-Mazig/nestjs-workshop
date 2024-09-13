@@ -51,11 +51,36 @@ describe('[Users] @Post Endpoints', () => {
     return request(httpServer).post('/users').send(missingPassword).expect(400);
   });
 
-  it.todo('/users - password is not returned in response');
+  it('/users - Valid request successfully creates user', () => {
+    return request(httpServer)
+      .post('/users')
+      .send(completeUser)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.data).toBeDefined();
+        expect(body.data.firstName).toBe(completeUser.firstName);
+        expect(body.data.lastName).toBe(completeUser.lastName);
+        expect(body.data.email).toBe(completeUser.email);
+      });
+  });
 
-  it.todo('/users - googleId is not returned in response');
+  it('/users - password is not returned in response', () => {
+    return request(httpServer)
+      .post('/users')
+      .send(completeUser)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.data.password).toBeUndefined();
+      });
+  });
 
-  // it('/users - Valid request successfully creates user', () => {
-  //   return request(httpServer).post('/users').send(completeUser).expect(User);
-  // });
+  it('/users - googleId is not returned in response', () => {
+    return request(httpServer)
+      .post('/users')
+      .send(completeUser)
+      .expect(201)
+      .then(({ body }) => {
+        expect(body.data.googleId).toBeUndefined();
+      });
+  });
 });
