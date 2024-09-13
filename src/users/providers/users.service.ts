@@ -5,7 +5,6 @@ import {
   Inject,
   Injectable,
   RequestTimeoutException,
-  UnauthorizedException,
 } from '@nestjs/common';
 import { GetUserParamsDto } from '../dtos/get-users-params.dto';
 import { FindOptionsWhere, Repository } from 'typeorm';
