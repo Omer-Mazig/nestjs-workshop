@@ -9,7 +9,6 @@ import { FindOneUserByEmailProvider } from './find-one-user-by-email.provider';
 import { User } from '../user.entity';
 import { UsersCreateManyProvider } from './users-create-many.provider';
 import { UsersService } from './users.service';
-import { create } from 'domain';
 import { getRepositoryToken } from '@nestjs/typeorm';
 
 describe('UsersService', () => {
