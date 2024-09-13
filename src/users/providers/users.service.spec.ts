@@ -6,15 +6,21 @@ import { getRepositoryToken } from '@nestjs/typeorm';
 import { User } from '../user.entity';
 import { MailService } from 'src/mail/providers/mail.service';
 import { HashingProvider } from 'src/auth/providers/hashing.provider';
+import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
 
 describe('UsersService', () => {
   let service: UsersService;
 
   beforeEach(async () => {
+    const mockUsersCreateManyProvider: Partial<UsersCreateManyProvider> = {};
+
     const module: TestingModule = await Test.createTestingModule({
       providers: [
         UsersService,
-        { provide: UsersCreateManyProvider, useValue: {} },
+        {
+          provide: UsersCreateManyProvider,
+          useValue: mockUsersCreateManyProvider,
+        },
 
         { provide: DataSource, useValue: {} },
         { provide: getRepositoryToken(User), useValue: {} },

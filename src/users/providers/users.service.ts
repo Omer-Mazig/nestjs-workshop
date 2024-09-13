@@ -1,169 +1,132 @@
+import { Repository } from 'typeorm';
 import {
   BadRequestException,
-  ConflictException,
-  forwardRef,
-  Inject,
+  HttpException,
+  HttpStatus,
   Injectable,
   RequestTimeoutException,
 } from '@nestjs/common';
-import { GetUserParamsDto } from '../dtos/get-users-params.dto';
-import { FindOptionsWhere, Repository } from 'typeorm';
-import { User } from '../user.entity';
 import { InjectRepository } from '@nestjs/typeorm';
-import { CreateUserDto } from '../dtos/create-user.dto';
-import { UsersCreateManyProvider } from './users-create-many.provider';
-import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
-import { HashingProvider } from 'src/auth/providers/hashing.provider';
+import { User } from '../user.entity';
 import { GoogleUser } from '../interfaces/google-user.interface';
-import { MailService } from 'src/mail/providers/mail.service';
+import { CreateUserDto } from './../dtos/create-user.dto';
+import { CreateManyUsersDto } from '../dtos/create-many-users.dto';
+import { GetUsersParamsDto } from '../dtos/get-users-params.dto';
+import { CreateUserProvider } from './create-user.provider';
+import { UsersCreateManyProvider } from './users-create-many.provider';
+import { FindOneUserByEmailProvider } from './find-one-user-by-email.provider';
+import { FindOneByGoogleIdProvider } from './find-one-by-google-id.provider';
+import { CreateGoogleUserProvider } from './create-google-user.provider';
 
 /**
- * Class to connect to users table and perform business operations
+ * Controller class for '/users' API endpoint
  */
 @Injectable()
 export class UsersService {
   constructor(
     /**
-     * Injecting UserRepository
+     * Injecting usersRepository
      */
     @InjectRepository(User)
-    private readonly usersRepository: Repository<User>,
+    private usersRepository: Repository<User>,
 
     /**
-     * Injecting UsersCreateManyProvider
+     * Inject UsersCreateMany provider
      */
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
+    /**
+     * Inject Create Users Provider
+     */
+    private readonly createUserProvider: CreateUserProvider,
 
     /**
-     * injecting HashingProvider
+     * Inject findOneUserByEmailProvider
      */
-    @Inject(forwardRef(() => HashingProvider))
-    private readonly hashingProvider: HashingProvider,
+    private readonly findOneUserByEmailProvider: FindOneUserByEmailProvider,
 
     /**
-     * injecting MailService
+     * Inject findOneByGoogleIdProvider
      */
-    private readonly mailService: MailService,
+    private readonly findOneByGoogleIdProvider: FindOneByGoogleIdProvider,
+    /**
+     * Inject createGooogleUserProvider
+     */
+    private readonly createGooogleUserProvider: CreateGoogleUserProvider,
   ) {}
 
+  /**
+   * Method to create a new user
+   */
+  public async createUser(createUserDto: CreateUserDto) {
+    return await this.createUserProvider.createUser(createUserDto);
+  }
+
+  /**
+   * Public method responsible for handling GET request for '/users' endpoint
+   */
   public findAll(
-    getUserParamsDto: GetUserParamsDto,
-    limit: number,
+    getUserParamDto: GetUsersParamsDto,
+    limt: number,
     page: number,
   ) {
-    return [
+    throw new HttpException(
       {
-        firstName: 'John',
-        email: 'john@gmail.com',
+        status: HttpStatus.MOVED_PERMANENTLY,
+        error: 'The API endpoint does not exist',
+        fileName: 'users.service.ts',
+        lineNumber: 88,
       },
+      HttpStatus.MOVED_PERMANENTLY,
       {
-        firstName: 'Alice',
-        email: 'alice@gmail.com',
+        cause: new Error(),
+        description: 'Occured because the API endpoint was permanently moved',
       },
-    ];
+    );
   }
 
-  public async findById(id: number) {
-    return this._findUserByCriteria({ id });
-  }
-
-  public async findOneByEmail(email: string) {
-    return this._findUserByCriteria({ email });
-  }
-
-  public async findOneByGoogleId(googleId: string) {
-    return await this.usersRepository.findOneBy({ googleId });
-  }
-
-  public async create(createUserDto: CreateUserDto) {
-    let exsitingUser = null;
+  /**
+   * Public method used to find one user using the ID of the user
+   */
+  public async findOneById(id: number) {
+    let user = undefined;
 
     try {
-      exsitingUser = await this.usersRepository.findOne({
-        where: {
-          email: createUserDto.email,
-        },
+      user = await this.usersRepository.findOneBy({
+        id,
       });
     } catch (error) {
       throw new RequestTimeoutException(
-        'Undable to process you requst please try later',
+        'Unable to process your request at the moment please try later',
         {
-          description: 'Error connecting to the database',
+          description: 'Error connecting to the the datbase',
         },
       );
     }
 
-    if (exsitingUser) {
-      throw new BadRequestException(
-        'The user already exsist, please check you email',
-      );
+    /**
+     * Handle the user does not exist
+     */
+    if (!user) {
+      throw new BadRequestException('The user id does not exist');
     }
 
-    const newUser = this.usersRepository.create({
-      ...createUserDto,
-      password: await this.hashingProvider.hashPassword(createUserDto.password),
-    });
-
-    let savedUser = null;
-
-    try {
-      savedUser = await this.usersRepository.save(newUser);
-    } catch (error) {
-      throw new RequestTimeoutException(
-        'Undable to process you requst please try later',
-        {
-          description: 'Error connecting to the database',
-        },
-      );
-    }
-
-    try {
-      await this.mailService.sendUserWelcome(savedUser);
-    } catch (error) {
-      console.log('UserService - Error while sending mail', error);
-      throw new RequestTimeoutException(error);
-    }
-
-    return savedUser;
+    return user;
   }
 
-  public async createGoogleUser(googleUser: GoogleUser) {
-    try {
-      const user = this.usersRepository.create(googleUser);
-      return await this.usersRepository.save(user);
-    } catch (error) {
-      throw new ConflictException(error, {
-        description: 'Could not create a new google user',
-      });
-    }
-  }
-
-  // consider remove abstruction by calling the database here
   public async createMany(createManyUsersDto: CreateManyUsersDto) {
     return await this.usersCreateManyProvider.createMany(createManyUsersDto);
   }
 
-  private async _findUserByCriteria(criteria: FindOptionsWhere<User>) {
-    let user: User | null = null;
+  // Finds one user by email
+  public async findOneByEmail(email: string) {
+    return await this.findOneUserByEmailProvider.findOneByEmail(email);
+  }
 
-    try {
-      user = await this.usersRepository.findOne({
-        where: criteria,
-      });
-    } catch (error) {
-      throw new RequestTimeoutException(
-        'Unable to process your request, please try later',
-        {
-          description: 'Error connecting to the database',
-        },
-      );
-    }
+  public async findOneByGoogleId(googleId: string) {
+    return await this.findOneByGoogleIdProvider.findOneByGoogleId(googleId);
+  }
 
-    if (!user) {
-      console.log('error: User does not exist');
-      throw new BadRequestException('User does not exist');
-    }
-
-    return user;
+  public async createGoogleUser(googleUser: GoogleUser) {
+    return await this.createGooogleUserProvider.createGoogleUser(googleUser);
   }
 }

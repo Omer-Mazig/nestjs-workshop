@@ -1,76 +1,79 @@
 import {
-  Body,
-  ClassSerializerInterceptor,
   Controller,
-  DefaultValuePipe,
   Get,
   Param,
-  ParseIntPipe,
   Patch,
   Post,
   Query,
+  Body,
+  ParseIntPipe,
+  DefaultValuePipe,
   UseInterceptors,
+  ClassSerializerInterceptor,
 } from '@nestjs/common';
 import { CreateUserDto } from './dtos/create-user.dto';
-import { GetUserParamsDto } from './dtos/get-users-params.dto';
 import { PatchUserDto } from './dtos/patch-user.dto';
 import { UsersService } from './providers/users.service';
-import { ApiOperation, ApiQuery, ApiResponse, ApiTags } from '@nestjs/swagger';
+import { ApiTags, ApiQuery, ApiOperation, ApiResponse } from '@nestjs/swagger';
 import { CreateManyUsersDto } from './dtos/create-many-users.dto';
 import { Auth } from 'src/auth/decorators/auth.decorator';
 import { AuthType } from 'src/auth/enums/auth-type.enum';
+import { GetUsersParamsDto } from './dtos/get-users-params.dto';
 
 @Controller('users')
 @ApiTags('Users')
 export class UsersController {
-  constructor(private readonly userService: UsersService) {}
+  constructor(
+    // Injecting Users Service
+    private readonly usersService: UsersService,
+  ) {}
 
-  @Get('/:userId?')
+  @Get('/:id?')
   @ApiOperation({
-    summary: 'Fetches a list if registered users on the application',
+    summary: 'Fetches a list of registered users on the application',
   })
   @ApiResponse({
     status: 200,
-    description: 'Users fetched',
+    description: 'Users fetched successfully based on the query',
   })
   @ApiQuery({
     name: 'limit',
     type: 'number',
     required: false,
-    description: 'The number of entires returned per query',
+    description: 'The number of entries returned per query',
     example: 10,
   })
   @ApiQuery({
     name: 'page',
     type: 'number',
     required: false,
-    description: 'The page number',
-    example: 2,
+    description:
+      'The position of the page number that you want the API to return',
+    example: 1,
   })
   public getUsers(
-    @Param() getUserParamsDto: GetUserParamsDto,
+    @Param() getUserParamDto: GetUsersParamsDto,
     @Query('limit', new DefaultValuePipe(10), ParseIntPipe) limit: number,
     @Query('page', new DefaultValuePipe(1), ParseIntPipe) page: number,
   ) {
-    return this.userService.findAll(getUserParamsDto, limit, page);
+    return this.usersService.findAll(getUserParamDto, limit, page);
   }
 
   @Post()
-  // @SetMetadata('authType', 'None')
-  @Auth(AuthType.None)
+  // @SetMetadata('authType', 'none')
   @UseInterceptors(ClassSerializerInterceptor)
-  public createUser(@Body() createUserDto: CreateUserDto) {
-    const user = this.userService.create(createUserDto);
-    return user;
-  }
-
-  @Patch()
-  public patchUser(@Body() patchUserDto: PatchUserDto) {
-    return `Patching user with body: ${JSON.stringify(patchUserDto)}`;
+  @Auth(AuthType.None)
+  public createUsers(@Body() createUserDto: CreateUserDto) {
+    return this.usersService.createUser(createUserDto);
   }
 
   @Post('create-many')
   public createManyUsers(@Body() createManyUsersDto: CreateManyUsersDto) {
-    return this.userService.createMany(createManyUsersDto);
+    return this.usersService.createMany(createManyUsersDto);
+  }
+
+  @Patch()
+  public patchUser(@Body() patchUserDto: PatchUserDto) {
+    return patchUserDto;
   }
 }
