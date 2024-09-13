@@ -48,7 +48,7 @@ export class RefreshTokensProvider {
       });
 
       // Fetch user from database
-      const user = await this.userService.findById(sub);
+      const user = await this.userService.findOneById(sub);
 
       // Generate the tokens
       return await this.generateTokensProvider.generateTokens(user);

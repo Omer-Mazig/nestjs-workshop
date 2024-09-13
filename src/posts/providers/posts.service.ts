@@ -51,7 +51,7 @@ export class PostsService {
     let author = null;
     let tags = null;
     try {
-      author = await this.usersService.findById(user.sub);
+      author = await this.usersService.findOneById(user.sub);
       tags = await this.tagsService.findMultiple(createPostDto.tags);
     } catch (error) {
       throw new ConflictException(error);
