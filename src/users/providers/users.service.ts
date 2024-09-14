@@ -19,54 +19,62 @@ import { FindOneByGoogleIdProvider } from './find-one-by-google-id.provider';
 import { CreateGoogleUserProvider } from './create-google-user.provider';
 
 /**
- * Controller class for '/users' API endpoint
+ * Service class for handling user-related operations.
  */
 @Injectable()
 export class UsersService {
   constructor(
     /**
-     * Injecting usersRepository
+     * Injecting the User repository to interact with the database.
      */
     @InjectRepository(User)
     private usersRepository: Repository<User>,
 
     /**
-     * Inject UsersCreateMany provider
+     * Injecting the UsersCreateManyProvider to handle batch creation of users.
      */
     private readonly usersCreateManyProvider: UsersCreateManyProvider,
+
     /**
-     * Inject Create Users Provider
+     * Injecting the CreateUserProvider to handle single user creation.
      */
     private readonly createUserProvider: CreateUserProvider,
 
     /**
-     * Inject findOneUserByEmailProvider
+     * Injecting the FindOneUserByEmailProvider to find users by email.
      */
     private readonly findOneUserByEmailProvider: FindOneUserByEmailProvider,
 
     /**
-     * Inject findOneByGoogleIdProvider
+     * Injecting the FindOneByGoogleIdProvider to find users by Google ID.
      */
     private readonly findOneByGoogleIdProvider: FindOneByGoogleIdProvider,
+
     /**
-     * Inject createGooogleUserProvider
+     * Injecting the CreateGoogleUserProvider to create a user with Google account details.
      */
     private readonly createGooogleUserProvider: CreateGoogleUserProvider,
   ) {}
 
   /**
-   * Method to create a new user
+   * Creates a new user in the system.
+   * @param createUserDto Data Transfer Object containing user creation data.
+   * @returns A promise that resolves to the created user.
    */
   public async createUser(createUserDto: CreateUserDto) {
     return await this.createUserProvider.createUser(createUserDto);
   }
 
   /**
-   * Public method responsible for handling GET request for '/users' endpoint
+   * Handles GET requests to fetch a list of users.
+   * @param getUserParamDto Data Transfer Object containing query parameters for filtering users.
+   * @param limit The maximum number of users to return.
+   * @param page The page number for pagination.
+   * @throws {HttpException} Throws an exception indicating that the endpoint is permanently moved.
    */
   public findAll(
     getUserParamDto: GetUsersParamsDto,
-    limt: number,
+    limit: number,
     page: number,
   ) {
     throw new HttpException(
@@ -79,13 +87,17 @@ export class UsersService {
       HttpStatus.MOVED_PERMANENTLY,
       {
         cause: new Error(),
-        description: 'Occured because the API endpoint was permanently moved',
+        description: 'Occurred because the API endpoint was permanently moved',
       },
     );
   }
 
   /**
-   * Public method used to find one user using the ID of the user
+   * Finds a user by their ID.
+   * @param id The ID of the user to find.
+   * @returns A promise that resolves to the user object.
+   * @throws {RequestTimeoutException} If there's an issue connecting to the database.
+   * @throws {BadRequestException} If the user ID does not exist.
    */
   public async findOneById(id: number) {
     let user = undefined;
@@ -98,34 +110,53 @@ export class UsersService {
       throw new RequestTimeoutException(
         'Unable to process your request at the moment please try later',
         {
-          description: 'Error connecting to the the datbase',
+          description: 'Error connecting to the database',
         },
       );
     }
 
     /**
-     * Handle the user does not exist
+     * Handle the case where the user does not exist.
      */
     if (!user) {
-      throw new BadRequestException('The user id does not exist');
+      throw new BadRequestException('The user ID does not exist');
     }
 
     return user;
   }
 
+  /**
+   * Creates multiple users in the system.
+   * @param createManyUsersDto Data Transfer Object containing data for creating multiple users.
+   * @returns A promise that resolves to an array of created users.
+   */
   public async createMany(createManyUsersDto: CreateManyUsersDto) {
     return await this.usersCreateManyProvider.createMany(createManyUsersDto);
   }
 
-  // Finds one user by email
+  /**
+   * Finds a user by their email.
+   * @param email The email of the user to find.
+   * @returns A promise that resolves to the user object.
+   */
   public async findOneByEmail(email: string) {
     return await this.findOneUserByEmailProvider.findOneByEmail(email);
   }
 
+  /**
+   * Finds a user by their Google ID.
+   * @param googleId The Google ID of the user to find.
+   * @returns A promise that resolves to the user object.
+   */
   public async findOneByGoogleId(googleId: string) {
     return await this.findOneByGoogleIdProvider.findOneByGoogleId(googleId);
   }
 
+  /**
+   * Creates a user using Google account information.
+   * @param googleUser Object containing Google user information.
+   * @returns A promise that resolves to the created user.
+   */
   public async createGoogleUser(googleUser: GoogleUser) {
     return await this.createGooogleUserProvider.createGoogleUser(googleUser);
   }
