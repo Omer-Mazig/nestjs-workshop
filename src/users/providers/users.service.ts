@@ -100,7 +100,7 @@ export class UsersService {
    * @throws {BadRequestException} If the user ID does not exist.
    */
   public async findOneById(id: number) {
-    let user = undefined;
+    let user: User = undefined;
 
     try {
       user = await this.usersRepository.findOneBy({
