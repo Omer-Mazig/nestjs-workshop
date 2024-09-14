@@ -11,7 +11,6 @@ import {
   missingFirstName,
   missingPassword,
 } from './users.post.e2e-spec.sample-data';
-import { User } from 'src/users/user.entity';
 
 describe('[Users] @Post Endpoints', () => {
   let app: INestApplication;
